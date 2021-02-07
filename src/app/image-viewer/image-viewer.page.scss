@@ -1,0 +1,26 @@
+.top {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Poppins";
+}
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+.frame {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: black;
+}
+
+img {
+    min-height: 50%;
+    min-width: 90%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}

@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+
+        <div style="font-family: 'Roboto', sans-serif;padding: 15px;">
+            <ion-label style="font-weight:bold;color: blue;">NOTIFICATIONS</ion-label>
+
+        </div>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div style="font-family: 'Padauk', sans-serif;" *ngIf="notification">
+        <ion-list *ngFor="let item of notification">
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img *ngIf="item.senderImage" src="{{item.senderImage}}">
+                    <img *ngIf="!item.senderImage" src="../../../assets/man.png">
+                </ion-avatar>
+                <ion-label class="label text">
+                    <h3>{{item.message}}</h3>
+                    <p style="font-size: 0.8rem;">{{timeCalc(item.sentAt)}}</p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+
+
+</ion-content>

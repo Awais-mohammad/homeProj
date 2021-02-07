@@ -1,0 +1,139 @@
+img {
+  height: 5em;
+}
+.headin {
+  position: relative;
+  top: 2em;
+  font-size:2em;
+  font-weight: bold;
+  left: 6%;
+  font-family: "Exo", "sans-serif";
+}
+.headin2 {
+  position: relative;
+  top: 5em;
+  left: 6%;
+  color: grey;
+}
+
+.line-input {
+  margin-bottom: 0 !important;
+  ion-item {
+    --border-color: transparent !important;
+    --highlight-height: 0;
+    border: 1px solid black;
+    border-radius: 4px;
+
+    &.item-has-focus {
+      border: 1px solid var(--ion-color-primary);
+    }
+
+    ion-label {
+      color: #807e7e !important;
+      font-weight: 300;
+      font-size: 1rem !important;
+    }
+  }
+}
+
+ion-input {
+  font-family: 'Oxygen', sans-serif;
+}
+@import url("https://fonts.googleapis.com/css2?family=Exo:wght@900&family=Hind+Siliguri&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Exo:wght@900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
+.inputFields {
+  position: relative;
+  top: 5em;
+  left: 4%;
+}
+
+.forgotPasbutn {
+  display: flex;
+  float: right;
+  clear: right;
+  right: 1.5em;
+  position: relative;
+}
+.loginButn {
+  padding: 1em;
+  position: relative;
+  top: 6em;
+}
+
+.gotosignupButn {
+  padding: 1em;
+  position: relative;
+  top: 6em;
+}
+
+.Headin {
+  position: relative;
+  top: 1em;
+  font-size: 2.2em;
+  font-weight: bold;
+  left: 6%;
+  font-family: "Exo", "sans-serif";
+}
+.Headin2 {
+  position: relative;
+  top: 3em;
+  left: 6%;
+  color: grey;
+}
+.InputFields {
+  position: relative;
+  top: 3em;
+  left: 4%;
+}
+.signUpbtn {
+  padding: 2em;
+  position: relative;
+  top: 1em;
+}
+
+#page {
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+ion-spinner * {
+  stroke: skyblue;
+}

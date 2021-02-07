@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Padauk&display=swap");
+
+.header {
+  background: linear-gradient(to right, #3dd030 0%, #086715 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 6px;
+  top: 10px;
+  display: flex;
+  position: relative;
+  text-align: center;
+  font-family: "Lobster", cursive;
+  font-size: 40px;
+  justify-content: center;
+}
+@import url("https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+
+.noshow {
+  height: 10vmin;
+  font-family: "Sansita Swashed", cursive;
+  text-align: center;
+  color: silver;
+  display: flex;
+  top: 6em;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+.spinner svg {
+  stroke: skyblue;
+  fill: skyblue;
+}
+
+#slide {
+ 
+  -webkit-animation: slide 0.5s forwards;
+  -webkit-animation-delay: 2s;
+  animation: slide 0.5s forwards;
+  animation-delay: 2s;
+}
+
+@-webkit-keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes slide {
+  100% {
+    left: 0;
+  }
+}

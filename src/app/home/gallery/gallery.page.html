@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="iconSize" style="font-family: 'Roboto', sans-serif;">
+      <ion-title class="iconSize" style="font-weight:bolder;color: blue;">COLLECTIONS</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="imagesData">
+    <div *ngFor="let item of imagesData">
+      <ion-item>
+        <ion-label class="greenColor">{{item.uploadedat}}</ion-label>
+      </ion-item>
+      <div class="caard-container">
+        <div *ngFor="let it of item.images" class="caard">
+          <img (click)="openFullpageimage(it.imageURL)" class="imeg" src="{{it.imageURL}}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!imagesData">
+    <div style="padding:8px; font-family: 'Asap Condensed', 'sans-serif;'">
+      <div style="font-size: 2em;" class="noshow">OOOPSS! Nothing to show at the moment TRY UPLOADING
+      </div>
+    </div>
+
+  </div>
+</ion-content>

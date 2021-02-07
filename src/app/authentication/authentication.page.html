@@ -1,0 +1,152 @@
+<ion-content>
+  <div *ngIf="!currentPage">
+    <div id="page">
+
+      <div style="padding:1em">
+        <img src="../../assets/icon/logo.png" alt="">
+      </div>
+
+
+      <div class="headin">
+        <ion-label>HELLO THERE,</ion-label>
+        <br>
+        <ion-label>WELCOME BACK</ion-label>
+      </div>
+
+      <div class="headin2">
+        <ion-label>
+          Sign In to continue
+        </ion-label>
+      </div>
+
+      <div class="inputFields">
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size-xs="10" size-sm="11" size-md="10" size-lg="8" size-xl="8">
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input type="email" [(ngModel)]="userEmail" placeholder="Enter your email"></ion-input>
+                </ion-item>
+              </ion-list>
+
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input [(ngModel)]="userPassword" type="{{type}}" placeholder="Enter your password">
+                  </ion-input>
+                  <ion-icon slot="end" *ngIf="!showPass" fill="clear" type="button" item-right (click)="showPassword()"
+                    name="eye-off" style="font-size: 25px;"></ion-icon>
+                  <ion-icon slot="end" *ngIf="showPass" fill="clear" type="button" item-right (click)="showPassword()"
+                    name="eye" style="font-size: 25px;"></ion-icon>
+
+                </ion-item>
+              </ion-list>
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div class="forgotPasbutn">
+          <ion-button color="none" style="color: black;font-family: 'Exo';" fill="clear" (click)="forgotpassword()">
+            Forgot password?
+          </ion-button>
+
+        </div>
+
+
+      </div>
+
+      <div class="loginButn">
+
+        <ion-button mode="ios" expand="block" color="dark" (click)="validateLogin()"> LOGIN</ion-button>
+
+      </div>
+      <div class="gotosignupButn">
+        <ion-button color="none" style="color: black;font-family: 'Hind Siliguri';" mode="ios" expand="block" outline
+          fill="clear" (click)="changeMainDiv()">
+          New User? SIGNUP NOW
+        </ion-button>
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentPage">
+
+    <div id="page">
+
+      <div style="padding:1em">
+        <img src="../../assets/icon/logo.png" alt="">
+      </div>
+      <div class="Headin">
+        <ion-label>WELCOME,</ion-label>
+      </div>
+
+      <div class="Headin2">
+        <ion-label>
+          SignUp to start your new journey
+        </ion-label>
+      </div>
+
+      <div class="InputFields">
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size-xs="10" size-sm="11" size-md="10" size-lg="8" size-xl="8">
+
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input type="text" [(ngModel)]="name" placeholder="Enter your Name"></ion-input>
+                </ion-item>
+              </ion-list>
+
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input type="number" [(ngModel)]="phone" placeholder="Enter your Phone"></ion-input>
+                </ion-item>
+              </ion-list>
+
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input type="email" [(ngModel)]="email" placeholder="Enter your email"></ion-input>
+                </ion-item>
+              </ion-list>
+
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input type="text" [(ngModel)]="adress" placeholder="Add a profile bio"></ion-input>
+                </ion-item>
+              </ion-list>
+
+              <ion-list style="width: 110%;" class="line-input">
+                <ion-item>
+                  <ion-input [(ngModel)]="password" type="{{type}}" placeholder="Enter your password"></ion-input>
+                  <ion-icon slot="end" *ngIf="!showPass" fill="clear" type="button" item-right (click)="showPassword()"
+                    name="eye-off" style="font-size: 25px;"></ion-icon>
+                  <ion-icon slot="end" *ngIf="showPass" fill="clear" type="button" item-right (click)="showPassword()"
+                    name="eye" style="font-size: 25px;"></ion-icon>
+                </ion-item>
+              </ion-list>
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </div>
+
+      <div class="signUpbtn">
+
+        <ion-button mode="ios" expand="block" color="dark" (click)="validatesignupForm()"> SIGNUP</ion-button>
+
+      </div>
+      <div style="position: relative;top: -1em;">
+        <ion-button color="none" style="color: black;font-family: 'Hind Siliguri';" mode="ios" expand="block" outline
+          fill="clear" (click)="changeMainDiv()">
+          Already Have An Account? LOGIN
+        </ion-button>
+      </div>
+
+
+    </div>
+  </div>
+</ion-content>

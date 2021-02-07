@@ -1,0 +1,230 @@
+<ion-header *ngIf="!createcollection">
+
+  <ion-toolbar>
+
+    <div class="header">
+      <ion-icon (click)="closePage()" class="iconheight" name="chevron-back"></ion-icon>
+      <ion-label class="toggledfont" style="position: relative;top: 4px;">PAGE NAME</ion-label>
+      <ion-icon *ngIf="!list" (click)="showHidelist()" class="iconheight" name="caret-down"></ion-icon>
+      <ion-icon *ngIf="list" (click)="showHidelist()" class="iconheight" name="caret-up"></ion-icon>
+    </div>
+
+  </ion-toolbar>
+
+  <div *ngIf="list">
+
+    <div class="toggled-list">
+
+      <ion-item>
+        <ion-label (click)="editProfile()" class="toggledfont">Edit Page</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label (click)="createnewcollection()" class="toggledfont">Create Collection</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label class="toggledfont">Delete Page</ion-label>
+      </ion-item>
+    </div>
+
+  </div>
+
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!createcollection">
+
+    <div class='topimg'>
+      <img src="../../assets/pexels-photo-947914.jpeg" alt="">
+    </div>
+
+    <div class='card-parent'>
+
+      <div class="card">
+
+        <div class="imgcentre">
+
+          <ion-avatar>
+            <img class="border imgheightWidth" src="../../assets/man.png" alt="">
+          </ion-avatar>
+
+          <ion-icon *ngIf="editPage" class="cameraicon" name="camera"></ion-icon>
+
+        </div>
+
+        <div class="textCentre">
+
+          <div *ngIf="!editPage" class="name">
+            my shop
+          </div>
+
+          <div *ngIf="editPage">
+
+            <ion-list class="line-input">
+
+              <ion-item>
+                <ion-label>NAME</ion-label>
+                <ion-input placeholder="Enter Name"></ion-input>
+              </ion-item>
+
+            </ion-list>
+
+          </div>
+
+        </div>
+
+        <div class="txt" class="otherDetails">
+
+          <ion-item *ngIf="!editPage" class="txt" lines="none">
+            EMAIL:Awaifanfoe@gmail.com
+          </ion-item>
+
+          <ion-list *ngIf="editPage" class="line-input">
+
+            <ion-item>
+              <ion-label>email</ion-label>
+              <ion-input placeholder="Enter email"></ion-input>
+            </ion-item>
+
+          </ion-list>
+
+          <ion-item *ngIf="!editPage" class="txt" lines="none">
+            Since
+          </ion-item>
+
+          <ion-item *ngIf="!editPage" class="txt" lines="none">
+            Adress
+          </ion-item>
+
+          <ion-button *ngIf="editPage" expand="block" color="success">FETCH ADRESS</ion-button>
+
+          <ion-item *ngIf="!editPage" class="txt" lines="none">
+            Phone
+          </ion-item>
+
+          <ion-list *ngIf="editPage" class="line-input">
+            <ion-item>
+              <ion-label>Phone</ion-label>
+              <ion-input placeholder="Enter Phone"></ion-input>
+            </ion-item>
+          </ion-list>
+
+          <ion-item *ngIf="!editPage" lines="none">
+
+            <ion-label class="txt">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, sit!
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum aut, sequi laboriosam incidunt aliquam
+              quas illum cupiditate delectus architecto modi.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, sit!
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum aut, sequi laboriosam incidunt aliquam
+              quas illum cupiditate delectus architecto modi.consectetur adipisicing elit. Assumenda, sit!
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum aut, sequi laboriosam incidunt aliquam
+              quas illum cupiditate delectus architecto modi.v
+            </ion-label>
+          </ion-item>
+
+          <ion-list *ngIf="editPage" class="line-input">
+            <ion-item>
+              <ion-label>Description</ion-label>
+              <ion-input placeholder="Enter description"></ion-input>
+            </ion-item>
+          </ion-list>
+
+        </div>
+
+        <ion-button *ngIf="editPage" shape="round" color="success">SAVE</ion-button>
+
+        <ion-button (click)="editProfile()" *ngIf="editPage" shape="round" fill="outline" color="danger">CANCEL
+        </ion-button>
+      </div>
+
+    </div>
+
+    <div class="moveUp" *ngFor="let item of [].constructor(10)">
+
+      <div class="spacebetween">
+        <ion-item lines="none">
+          <ion-label class="greenColor">ROSE</ion-label>
+        </ion-item>
+
+        <ion-button mode='ios' color="warning" fill='outline'>update</ion-button>
+
+      </div>
+
+      <div class="caard-container">
+
+        <div *ngFor="let item of [].constructor(10)" class="caard">
+          <img class="imgborder" src="../../assets/pexels-photo-947914.jpeg" alt="">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="createcollection">
+    <img src="../../assets/icon/tree.png" class="topleftimage" alt="">
+    <ion-label class="alignleft">TERRAPLANTERA</ion-label>
+
+    <div class="fadeInRight" *ngIf="stage=='name'" class="middle">
+
+      <ion-label class="lordrinafont">CHOOSE A NAME FOR COLLECTION</ion-label>
+
+      <ion-list class="line-input padding">
+
+        <ion-item>
+
+          <ion-input class="k2dfont" [(ngModel)]="collectionName" placeholder="Example:ROSES,SUNFLOWERS"></ion-input>
+
+        </ion-item>
+
+      </ion-list>
+
+      <div class="padding">
+        <ion-button (click)="collectionstages('uploadphotos')" mode='ios' expand='block' color="dark">NEXT
+          <ion-icon name="arrow-forward"></ion-icon>
+        </ion-button>
+        <ion-button (click)="createnewcollection()" fill='clear' mode='ios' expand='block' color="danger">
+          NOT NOW
+          <ion-icon slot="start" name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+    </div>
+
+    <div *ngIf="stage=='uploadphotos'">
+      <div class="fadeInRight" class="midle">
+        <ion-label class="lordrinafont">ADD IMAGES TO COLLECTIONS</ion-label>
+
+        <div class="cardscontainer">
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let item of [].constructor(12)">
+                <div class="imgcards">
+                  <img class="upimgicon" src="../../assets/uploadimage.png" alt="">
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </div>
+
+        <div class="btnnext">
+
+          <ion-button (click)="collectionstages('uploadphotos')" mode='ios' expand='block' color="dark">CREATE
+            <ion-icon name="arrow-forward"></ion-icon>
+          </ion-button>
+          <ion-button (click)="collectionstages('name')" fill='clear' mode='ios' expand='block' color="danger">
+            BACK
+            <ion-icon slot="start" name="arrow-back"></ion-icon>
+          </ion-button>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "homeProj",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

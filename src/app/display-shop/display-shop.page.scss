@@ -1,0 +1,208 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.iconheight {
+    font-size: 25px;
+}
+.topimg {
+    z-index: 1;
+    position: relative;
+}
+.toggled-list {
+    position: absolute;
+    width: 50%;
+    right: 2px;
+    z-index: 3;
+}
+.toggledfont {
+    font-family: "PT Sans", sans-serif;
+    color: black;
+}
+.card-parent {
+    z-index: 5;
+    top: -5em;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    position: relative;
+    padding: 1em;
+    height: auto;
+    width: 90%;
+    border-radius: 50px;
+    background-color: white;
+    border: 2px solid white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: black;
+
+    .imgcentre {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .border {
+            border: 2px solid black;
+        }
+        .imgheightWidth {
+            height: 100%;
+        }
+    }
+    .textCentre {
+        padding-top: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        .name {
+            font-size: 2em;
+            font-family: "K2D", sans-serif;
+        }
+    }
+    .otherDetails {
+        .txt {
+            color: black;
+            white-space: normal;
+            width: 350px;
+            font-family: "PT Sans", sans-serif;
+        }
+    }
+}
+.k2dfont {
+    font-family: "K2D", sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
+.cameraicon {
+    position: relative;
+    top: 1.5em;
+    right: 1em;
+}
+.caard-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    .caard {
+        flex: 0 0 auto;
+        padding: 4px;
+        border-radius: 25px;
+        width: 50%;
+    }
+}
+
+.spacebetween {
+    display: flex;
+    justify-content: space-between;
+}
+.imgborder {
+    border-radius: 25px;
+}
+.greenColor {
+    color: green;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.moveUp {
+    position: relative;
+    top: -3em;
+}
+
+ion-avatar {
+    img {
+        object-fit: contain;
+    }
+}
+.line-input {
+    margin-bottom: 0 !important;
+    ion-item {
+        --border-color: transparent !important;
+        --highlight-height: 0;
+        border: 1px solid black;
+        border-radius: 4px;
+
+        &.item-has-focus {
+            border: 1px solid var(--ion-color-primary);
+        }
+
+        ion-label {
+            color: #807e7e !important;
+            font-weight: 300;
+            font-size: 1rem !important;
+        }
+    }
+}
+
+.padding {
+    padding: 30px;
+}
+
+.topleftimage {
+    height: 80px;
+    padding: 5px;
+}
+.alignleft {
+    position: relative;
+    top: -9px;
+    background: linear-gradient(to right, #3dd030 0%, #086715 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: "Lobster", cursive;
+    font-size: 30px;
+}
+
+.middle {
+    position: relative;
+    text-align: center;
+    top: 11em;
+}
+
+.midle {
+    position: relative;
+    text-align: center;
+    top: 5em;
+}
+.cardscontainer {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 4px;
+}
+
+.lordrinafont {
+    font-family: "Londrina Solid", cursive;
+    font-size: 30px;
+}
+.imgcards {
+    border: 2px dotted green;
+    border-radius: 12px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 4em;
+}
+.upimgicon {
+    height: 30px;
+}
+.btnnext {
+    position: relative;
+    top: 5em;
+    padding: 3px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=K2D&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Solid&display=swap");

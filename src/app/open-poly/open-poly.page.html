@@ -1,0 +1,24 @@
+<div id="page" class="top">
+  <ion-title>DETAILS</ion-title>
+  <ion-button fill="clear" color="danger" (click)="closePage()">
+    Close</ion-button>
+</div>
+
+
+<ion-content>
+  <div style="padding:10px;">
+    <ion-item>
+      <ion-label>
+        <ion-icon color="tertiary" name="accessibility-outline"></ion-icon>
+        {{polygon}} people planted here
+      </ion-label>
+    </ion-item>
+    <div style="padding:8px; font-family: 'Asap Condensed', 'sans-serif;'">
+      <ion-label style="color: blueviolet;"><b>IMAGES</b></ion-label>
+      <div *ngIf="!images">
+        <ion-label class="noshow">OOOPSS! No images found
+        </ion-label>
+      </div>
+    </div>
+  </div>
+</ion-content>

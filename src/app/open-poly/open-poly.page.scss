@@ -1,0 +1,21 @@
+.top {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Poppins";
+  background-color: white;
+  font-family: "Asap Condensed", sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap");
+
+.noshow {
+  height: 10vmin;
+  font-family: "Sansita Swashed", cursive;
+  text-align: center;
+  color: silver;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+}

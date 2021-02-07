@@ -1,0 +1,56 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content refreshingSpinner="circles" refreshingText="Refreshing..."> </ion-refresher-content>
+  </ion-refresher>
+
+  <div id="slide">
+
+    <div>
+      <ion-label (click)="testmodal()" class="header">
+        TERRAPLANTERRA</ion-label>
+    </div>
+
+    <div *ngIf="posts">
+      <ion-list *ngFor="let item of posts">
+        <ion-item>
+          <ion-avatar (click)="openProfileModal(item.uploadedBy)" slot="start">
+            <img src={{item.uploaderImage}}>
+          </ion-avatar>
+          <ion-label (click)="openProfileModal(item.uploadedBy)" class="label text">
+            <h3> <b>{{item.uploaderName}}</b> uploaded this image</h3>
+            <p style="font-size: 0.8rem;">{{timeCalc(item.timestamp)}}</p>
+          </ion-label>
+        </ion-item>
+        <div style="text-align: center;">
+          <img style="  object-fit: cover;min-width: 380px;max-width: 385px;height: 400px;" src="{{item.imageURL}}"
+            alt="">
+
+        </div>
+        <ion-button fill='outline' *ngIf="!item.Liked" color="primary" mode='ios' expand='block'
+          (click)="addLike(item)">
+          <ion-icon style="position: relative;left: -1px;top: -2px;" name="thumbs-up-outline">
+          </ion-icon>
+          Like
+        </ion-button>
+
+        <ion-button mode='ios' shape='round' *ngIf="item.Liked" color="none"
+          style="background-color: purple;color: white;" expand='block'>
+          <ion-icon style="position: relative;left: -1px;top: -2px;border-radius: 20px;" name="thumbs-up-outline">
+          </ion-icon>
+          Liked
+        </ion-button>
+      </ion-list>
+    </div>
+
+  </div>
+
+  <div id="slide" *ngIf="!posts">
+    <div style="padding:8px; font-family: 'Asap Condensed', 'sans-serif;'">
+
+      <div>
+        <ion-label class="noshow">OOOPSS! Nothing to show at the moment
+        </ion-label>
+      </div>
+    </div>
+  </div>
+</ion-content>

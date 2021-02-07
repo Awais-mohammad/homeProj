@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "184492540467",
+    "firebase_url": "https://home-83887.firebaseio.com",
+    "project_id": "home-83887",
+    "storage_bucket": "home-83887.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184492540467:android:01525de929df970eaf1946",
+        "android_client_info": {
+          "package_name": "com.terraplantera.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184492540467-fri37droo4b3irj77fftc766cgsl00qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi-BVdzuPR0r87qBVxfoE_9Jc7RptpAwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184492540467-fri37droo4b3irj77fftc766cgsl00qr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

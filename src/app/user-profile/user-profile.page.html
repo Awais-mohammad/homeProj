@@ -1,0 +1,184 @@
+<ion-header *ngIf="!fullpageImage">
+  <ion-toolbar>
+    <div *ngIf="currentDiv=='profile' && userData && !fullpageImage" class="top">
+      <ion-title> {{userData.Name}}</ion-title>
+      <ion-button fill="clear" color="danger" (click)="closePage()">
+        Close</ion-button>
+    </div>
+
+    <div *ngIf="currentDiv=='gallery' && userData && !fullpageImage" class="top">
+      <ion-title *ngIf="galleryLabel=='PRIVATE'">{{galleryLabel}} IMAGES</ion-title>
+      <ion-title *ngIf="galleryLabel=='PUBLIC'">{{galleryLabel}} IMAGES</ion-title>
+      <ion-button (click)="switchViews('profile','none')" fill='clear' color="danger">
+        CLOSE
+      </ion-button>
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="font-family: 'Poppins';font-size: 5px;">
+  <div *ngIf="currentDiv=='profile'">
+
+    <div style="margin-top: 0;padding-top: 0;" class="container">
+
+      <div style="margin-top: 0;padding-top: 0;" *ngIf="userData" class="profile">
+
+        <div class="profile-image">
+
+          <img *ngIf="userData.ProfileImage" src="{{userData.ProfileImage}}" alt="">
+
+
+        </div>
+
+        <div style="margin: 0;padding: 0;" class="profile-user-settings">
+
+          <h1 class="profile-user-name">{{userData.Name}}</h1>
+
+          <ion-button (click)="follow()" *ngIf="currentuserID != UserID && !foollow"
+            style="position: relative;right: 1.5em;" expand='large' class="profile-edit-btn" fill='outline'
+            color="primary" mode='ios'>
+            <ion-icon name="person-add-outline"></ion-icon>
+            FOLLOW
+          </ion-button>
+
+          <ion-button (click)="follow()" *ngIf="currentuserID != UserID && foollow"
+            style="position: relative;right: 1.5em;" expand='large' class="profile-edit-btn" color="primary" mode='ios'>
+            <ion-icon name="person-add-outline"></ion-icon>
+            FOLLOWING
+          </ion-button>
+
+
+          <ion-button (click)="ChoosePhotoOption('profile')" *ngIf="currentuserID == UserID"
+            style="position: relative;right: 1.5em;" expand='large' class="profile-edit-btn" fill='outline'
+            color="primary" mode='ios'>
+            <ion-icon name="image-outline"></ion-icon>
+            EDIT PICTURE
+          </ion-button>
+
+        </div>
+
+        <div class="profile-stats">
+
+          <ul>
+            <li style="font-size: 16px;">
+              <ion-label *ngIf="temp1" style="font-size: 16px;" class="profile-stat-count">{{temp1}}</ion-label>
+              <ion-label *ngIf="!temp1" style="font-size: 16px;" class="profile-stat-count">0</ion-label>
+              posts
+            </li>
+            <li style="font-size: 16px;">
+              <ion-label *ngIf="temp2" style="font-size: 16px;" class="profile-stat-count">{{temp2}}</ion-label>
+              <ion-label *ngIf="!temp2" style="font-size: 16px;" class="profile-stat-count">0</ion-label>
+              followers
+            </li>
+            <li style="font-size: 16px;">
+              <ion-label *ngIf="temp3" style="font-size: 16px;" class="profile-stat-count">{{temp3}}</ion-label>
+              <ion-label *ngIf="!temp3" style="font-size: 16px;" class="profile-stat-count">0</ion-label>
+              following
+            </li>
+          </ul>
+
+        </div>
+
+        <div class="profile-bio">
+
+
+          <ion-label style="font-weight: bold;" class="profile-real-name">{{userData.Name}}</ion-label>
+          <br>
+          <div *ngIf="userData.Adress">
+            {{userData.Adress}}
+          </div>
+
+          <div *ngIf="!userData.Adress">
+            No profile bio added yet
+          </div>
+
+
+        </div>
+
+      </div>
+      <!-- End of profile section -->
+      <div style="position: relative;top: -12em;">
+        <div style="display: flex;justify-content: space-between;">
+          <ion-label style="font-size: 5em;font-weight: bold;">PUBLIC IMAGES</ion-label>
+          <ion-button (click)="switchViews('gallery','public')" style="font-size: 3em;" fill='clear' color="danger">VIEW
+            ALL</ion-button>
+        </div>
+        <div *ngIf="publicdisplayImages && publicdisplayImages.images" class="imgcontainer">
+          <div *ngFor="let item of publicdisplayImages.images" class="imgcard">
+            <img class="imeg" src="{{item.imageURL}}">
+
+          </div>
+
+        </div>
+
+        <div *ngIf="!publicdisplayImages" class="imgcontainer">
+
+          <ion-label style="font-size: 5em;color: gray;">NO IMAGES TO SHOW</ion-label>
+        </div>
+        <ion-button *ngIf="currentuserID == UserID" style="position: relative;top: -1em;" expand='block' color="warning"
+          (click)="capture('public')">
+          UPLOAD</ion-button>
+      </div>
+
+      <div *ngIf="this.currentuserID == UserID" style="position: relative;top: -12em;">
+        <div style="display: flex;justify-content: space-between;">
+          <ion-label style="font-size: 5em;font-weight: bold;">PRIVATE IMAGES</ion-label>
+          <ion-button (click)="switchViews('gallery','private')" style="font-size: 3em;" fill='clear' color="danger">
+            VIEW ALL</ion-button>
+        </div>
+        <div *ngIf="privateImages" class="imgcontainer">
+
+          <div *ngFor="let item of privateImages" class="imgcard">
+            <img class="imeg" src="{{item.imageURL}}">
+
+
+          </div>
+
+
+        </div>
+        <div *ngIf="!privateImages" class="imgcontainer">
+
+          <ion-label style="font-size: 5em;color: gray;">NO IMAGES TO SHOW</ion-label>
+        </div>
+
+        <ion-button *ngIf="currentuserID == UserID" style="position: relative;top: -1em;" expand='block' color="warning"
+          (click)="ChoosePhotoOption('private')">
+          UPLOAD</ion-button>
+      </div>
+      <!-- End of container -->
+
+    </div>
+  </div>
+
+  <div *ngIf="currentDiv=='gallery' && galleryLabel=='PUBLIC'">
+    <div *ngIf="imagesData">
+      <div *ngFor="let item of imagesData">
+        <ion-item>
+          <ion-label class="greenColor">{{item.uploadedat}}</ion-label>
+        </ion-item>
+        <div class="caard-container">
+          <div *ngFor="let it of item.images" class="caard">
+            <img (click)="openFullpageimage(it.imageURL)" class="image" src="{{it.imageURL}}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!imagesData">
+      <div style="padding:8px; font-family: 'Asap Condensed', 'sans-serif;'">
+        <div style="font-size: 2em;" class="noshow">OOOPSS! Nothing to show at the moment TRY UPLOADING
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="currentDiv=='gallery' && galleryLabel=='PRIVATE'">
+    <section *ngIf="privateImages" id="photos">
+      <img style="border-radius: 20px;" *ngFor="let item of privateImages" src="{{item.imageURL}}" alt="" srcset="">
+
+    </section>
+  </div>
+
+</ion-content>
