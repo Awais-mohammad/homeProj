@@ -13,6 +13,8 @@ import { AngularFireStorage } from "@angular/fire/storage";
 import { Camera, CameraOptions } from "@ionic-native/Camera/ngx";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer/ngx";
 import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: "app-feed",
@@ -32,7 +34,9 @@ export class FeedPage implements OnInit {
     public File: FileTransfer,
     public modal: ModalController,
     public onesignal: OneSignal,
+    private statusBar: StatusBar,
     public admob: AdMobFree,
+    private platform: Platform,
 
   ) {
     let currentDate = new Date();
@@ -353,6 +357,10 @@ export class FeedPage implements OnInit {
           });
       });
     }
+    this.platform.ready().then(() => {
+      this.statusBar.backgroundColorByHexString("ffffff");
+      this.statusBar.styleDefault();
+    });
   }
 
   ngOnInit() {
