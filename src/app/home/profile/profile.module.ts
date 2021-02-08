@@ -1,3 +1,4 @@
+import { DisplayShopPage } from './../../display-shop/display-shop.page';
 import { UserProfilePage } from './../../user-profile/user-profile.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,9 +15,10 @@ import { ProfilePage } from './profile.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+
   ],
   declarations: [ProfilePage],
-  entryComponents: [UserProfilePage]
+  entryComponents: [UserProfilePage, DisplayShopPage]
 })
 export class ProfilePageModule { }

@@ -1,3 +1,4 @@
+import { DisplayShopPage } from './../../display-shop/display-shop.page';
 import { UserProfilePage } from './../../user-profile/user-profile.page';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -34,6 +35,7 @@ export class ProfilePage implements OnInit {
   adress: String;
   currentDiv: string = 'menu';
   showSearchBar: boolean = false;
+  shopdata: any;
 
   //loading
   async presentLoading() {
@@ -181,7 +183,19 @@ export class ProfilePage implements OnInit {
 
   }
 
+  async opendisplayshoppage(pageID) {
+    const model = await this.ModalCtrl.create({
+      component: DisplayShopPage,
+      cssClass: "my-custom-class",
+      id: "displayshop",
+      componentProps: {
+        PageID: pageID,
+      },
+    });
+    return await model.present();
 
+
+  }
 
   showHideSearchBar(mgf) {
     this.showSearchBar = !this.showSearchBar;
@@ -440,8 +454,10 @@ export class ProfilePage implements OnInit {
     const Adress = this.userData.Adress
     const lattitude = this.userData.Lattitude
     const longitude = this.userData.Longitude
-    const Phone = this.userData.Phone
     const OwnerID = this.currentUserID
+    const RegisteredAt = Date.now()
+    const Email = this.userData.Email
+    const ProfileImage = 'https://img.icons8.com/pastel-glyph/2x/shop.png'
     const docID = firebase.firestore().collection('shops').doc().id
     this.firestore.collection('shops').doc(docID).set({
       Name,
@@ -449,13 +465,14 @@ export class ProfilePage implements OnInit {
       Adress,
       lattitude,
       longitude,
-      Phone,
+      Email,
+      RegisteredAt,
       OwnerID,
-      docID
+      docID,
+      ProfileImage,
     }).then(() => {
       this.msg = 'Shop created'
       this.presentToast()
-      this.shop = 'abc'
       this.currentDiv = 'menu'
     })
   }
@@ -525,6 +542,20 @@ export class ProfilePage implements OnInit {
   }
 
 
+  getshops() {
+    this.firestore.collection('shops', querr => querr.where('OwnerID', '==', this.currentUserID)).valueChanges().subscribe(res => {
+      if (res.length < 1) {
+        console.log('user dont have any shop');
+
+      }
+      else {
+        console.log('shops=>', res);
+        this.shopdata = res;
+      }
+
+    })
+  }
+
   ionViewWillLeave() {
     this.userData = null;
     this.currentUserID = null;
@@ -532,6 +563,7 @@ export class ProfilePage implements OnInit {
     this.searchResults = null;
     this.searchedName = ''
   }
+
   ionViewWillEnter() {
     this.showSearchBar = false;
     this.searchResults = null;
@@ -541,6 +573,7 @@ export class ProfilePage implements OnInit {
         this.currentUserID = user.uid
         this.getUserData(this.currentUserID);
         this.checkUserrequest(this.currentUserID)
+
         subscribe.unsubscribe();
       })
     }
@@ -558,6 +591,7 @@ export class ProfilePage implements OnInit {
         this.currentUserID = user.uid
         this.getUserData(this.currentUserID);
         this.checkUserrequest(this.currentUserID)
+        this.getshops()
         subscribe.unsubscribe();
       })
     }
@@ -565,6 +599,7 @@ export class ProfilePage implements OnInit {
       this.currentUserID = this.firebaseauth.auth.currentUser.uid;
       this.getUserData(this.currentUserID);
       this.checkUserrequest(this.currentUserID)
+      this.getshops()
     }
 
   }
