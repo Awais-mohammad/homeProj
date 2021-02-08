@@ -1,73 +1,89 @@
 <ion-content>
   <div *ngIf="!currentPage">
     <div id="page">
-
-      <div style="padding:1em">
-        <img src="../../assets/icon/logo.png" alt="">
-      </div>
+      <div class="context">
 
 
-      <div class="headin">
-        <ion-label>HELLO THERE,</ion-label>
-        <br>
-        <ion-label>WELCOME BACK</ion-label>
-      </div>
+        <div style=" text-align:center;padding-top:30px;">
+          <img src="../../assets/icon/logo.png" style="font-size: 1.3em;text-align:center;right:0px;left:0px;" alt="">
+        </div>
 
-      <div class="headin2">
-        <ion-label>
-          Sign In to continue
-        </ion-label>
-      </div>
+        <div class="headin">
+          <br />
+          <ion-label>HELLO THERE,</ion-label>
+          <br />
+          <ion-label>
+            Sign in to continue
+          </ion-label>
+        </div>
 
-      <div class="inputFields">
+        <div class="inputFields">
 
-        <ion-grid>
-          <ion-row>
-            <ion-col size-xs="10" size-sm="11" size-md="10" size-lg="8" size-xl="8">
-              <ion-list style="width: 110%;" class="line-input">
-                <ion-item>
-                  <ion-input type="email" [(ngModel)]="userEmail" placeholder="Enter your email"></ion-input>
-                </ion-item>
-              </ion-list>
+          <ion-grid>
+            <ion-row>
+              <ion-col size-xs="10" size-sm="11" size-md="10" size-lg="8" size-xl="8">
+                <ion-list style="width: 110%;" class="line-input">
+                  <ion-item>
+                    <ion-input type="email" [(ngModel)]="userEmail" placeholder="Enter your email"></ion-input>
+                  </ion-item>
+                </ion-list>
 
-              <ion-list style="width: 110%;" class="line-input">
-                <ion-item>
-                  <ion-input [(ngModel)]="userPassword" type="{{type}}" placeholder="Enter your password">
-                  </ion-input>
-                  <ion-icon slot="end" *ngIf="!showPass" fill="clear" type="button" item-right (click)="showPassword()"
-                    name="eye-off" style="font-size: 25px;"></ion-icon>
-                  <ion-icon slot="end" *ngIf="showPass" fill="clear" type="button" item-right (click)="showPassword()"
-                    name="eye" style="font-size: 25px;"></ion-icon>
+                <ion-list style="width: 110%;" class="line-input">
+                  <ion-item>
+                    <ion-input [(ngModel)]="userPassword" type="{{type}}" placeholder="Enter your password">
+                    </ion-input>
+                    <ion-icon slot="end" *ngIf="!showPass" fill="clear" type="button" item-right
+                      (click)="showPassword()" name="eye-off" style="font-size: 25px;"></ion-icon>
+                    <ion-icon slot="end" *ngIf="showPass" fill="clear" type="button" item-right (click)="showPassword()"
+                      name="eye" style="font-size: 25px;"></ion-icon>
 
-                </ion-item>
-              </ion-list>
+                  </ion-item>
+                </ion-list>
 
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
 
-        <div class="forgotPasbutn">
-          <ion-button color="none" style="color: black;font-family: 'Exo';" fill="clear" (click)="forgotpassword()">
-            Forgot password?
-          </ion-button>
+          <div class="forgotPasbutn">
+            <ion-button color="none" style="color: black;font-family: 'Exo';" fill="clear" (click)="forgotpassword()">
+              Forgot password?
+            </ion-button>
+
+          </div>
+
 
         </div>
 
+        <div class="loginButn">
 
+          <ion-button mode="ios" expand="block" color="dark" (click)="validateLogin()"> LOGIN</ion-button>
+
+        </div>
+        <div class="gotosignupButn">
+          <ion-button color="none" style="color: black;font-family: 'Hind Siliguri';" mode="ios" expand="block" outline
+            fill="clear" (click)="changeMainDiv()">
+            <span>New User? </span><span style = "font-weight: bold;font-family: Verdana, Geneva, Tahoma, sans-serif;"> &nbsp;SIGNUP NOW</span>
+          </ion-button>
+
+        </div>
       </div>
 
-      <div class="loginButn">
 
-        <ion-button mode="ios" expand="block" color="dark" (click)="validateLogin()"> LOGIN</ion-button>
-
+      <div class="area">
+        <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
       </div>
-      <div class="gotosignupButn">
-        <ion-button color="none" style="color: black;font-family: 'Hind Siliguri';" mode="ios" expand="block" outline
-          fill="clear" (click)="changeMainDiv()">
-          New User? SIGNUP NOW
-        </ion-button>
 
-      </div>
     </div>
   </div>
 
