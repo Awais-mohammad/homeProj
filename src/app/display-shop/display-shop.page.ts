@@ -128,8 +128,10 @@ export class DisplayShopPage implements OnInit {
 
   clickedImage: string;
   imageData: string;
+  imgcheck: string;
 
   openGallery() {
+
     this.loaderID = 'clickImage'
     this.loadermsg = 'Hold a sec'
     this.presentLoading()
@@ -147,12 +149,11 @@ export class DisplayShopPage implements OnInit {
       this.msg = "Unable to Open gallery please use camera "
       this.presentToast();
 
-    }).then(() => {
-
     })
   }
 
   capture() {
+
     this.loaderID = 'clickImage'
     this.loadermsg = 'Hold a sec'
     this.presentLoading()
@@ -175,30 +176,102 @@ export class DisplayShopPage implements OnInit {
   }
 
   uploadImagetoServer() {
-    this.collectionID = this.generateID()
-    const FileTransfer: FileTransferObject = this.File.create();
-    let opt: FileUploadOptions = {
-      fileKey: "file",
-      fileName: this.collectionID + '.jpg ' + Math.random(),
-      headers: {},
-    };
-    FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
-      .then((upload) => {
+    if (!this.clickedImage) {
+      this.collectionID = this.generateID()
+      const FileTransfer: FileTransferObject = this.File.create();
+      let opt: FileUploadOptions = {
+        fileKey: "file",
+        fileName: this.collectionID + '.jpg ',
+        headers: {},
+      };
+      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+        .then((upload) => {
 
-        this.clickedImage = "http://134.122.2.23/uploads/" + this.collectionID + '.jpg';
-        console.log(upload);
+          this.clickedImage = "http://134.122.2.23/uploads/" + this.collectionID + '.jpg';
+          console.log(upload);
 
-      }).then(() => {
-        this.loading.dismiss('clickImage')
-        this.msg = 'Image updated'
-        this.presentToast()
-      }).catch(() => {
-        this.loading.dismiss('clickImage')
-        this.msg = 'Something went wrong please retry'
-        this.presentToast()
-      })
+        }).then(() => {
+          this.loading.dismiss('clickImage')
+          this.msg = 'Image uploaded'
+          this.presentToast()
+          this.addtoFirestore(this.collectionID, 'one')
+        }).catch(() => {
+          this.loading.dismiss('clickImage')
+          this.msg = 'Something went wrong please retry'
+          this.presentToast()
+        })
+    }
+    else if (this.clickedImage) {
+      const imageURL = this.collectionID + Math.random()
+
+      const FileTransfer: FileTransferObject = this.File.create();
+      let opt: FileUploadOptions = {
+        fileKey: "file",
+        fileName: imageURL + '.jpg ',
+        headers: {},
+      };
+      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+        .then((upload) => {
+
+          this.clickedImage = "http://134.122.2.23/uploads/" + imageURL + '.jpg';
+          console.log(upload);
+
+        }).then(() => {
+          this.loading.dismiss('clickImage')
+          this.msg = 'Image uploaded'
+          this.presentToast()
+          this.addtoFirestore(this.collectionID, 'two')
+        }).catch(() => {
+          this.loading.dismiss('clickImage')
+          this.msg = 'Something went wrong please retry'
+          this.presentToast()
+        })
+
+    }
+
   }
 
+  addtoFirestore(docID, decide) {
+    const collectionName = this.collectionName
+    const collectionID = this.collectionID
+    const createdAt = Date.now()
+    const clickedImage = this.clickedImage
+
+    if (decide == 'one') {
+      this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).doc(docID).set({
+        collectionName,
+        collectionID,
+        createdAt,
+        images: firebase.firestore.FieldValue.arrayUnion({
+          clickedImage
+        })
+      }).then(() => {
+        this.getcurrentcolimages()
+      })
+    }
+
+    else if (decide == 'two') {
+      this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).doc(docID).update({
+        images: firebase.firestore.FieldValue.arrayUnion({
+          clickedImage
+        })
+      }).then(() => {
+        this.getcurrentcolimages()
+      })
+
+    }
+  }
+
+  shopImages: any;
+
+  getcurrentcolimages() {
+    this.firestore.collection('shops').doc(this.PageID)
+      .collection(this.collectionName).doc(this.collectionID).valueChanges().subscribe(data => {
+        this.shopImages = data;
+        console.log('shop images=>', this.shopImages);
+
+      })
+  }
 
   create() {
     const collectionName = this.collectionName;
@@ -210,6 +283,26 @@ export class DisplayShopPage implements OnInit {
       timestamp,
       ownerID,
       docID,
+    })
+  }
+
+  deleteCollection() {
+    this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).
+      doc(this.collectionID).delete().then(() => {
+        this.msg = 'Discarded!!!'
+        this.presentToast()
+        this.createcollection = !this.createcollection
+      })
+  }
+
+  deleteshop() {
+    this.firestore.collection('shops').doc(this.PageID).delete().then(() => {
+      this.msg = 'page deleted successfully!!'
+      this.presentToast()
+      this.closePage()
+    }).catch(err => {
+      this.msg = JSON.stringify(err)
+      this.presentToast()
     })
   }
 
@@ -233,6 +326,10 @@ export class DisplayShopPage implements OnInit {
       this.timeAgo = Math.floor(this.daysDifference) + " days ago";
       return this.timeAgo;
     }
+  }
+
+  getcollections() {
+
   }
 
   getPageData() {

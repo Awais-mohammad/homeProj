@@ -24,7 +24,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label class="toggledfont">Delete Page</ion-label>
+        <ion-label (click)="deleteshop()" class="toggledfont">Delete Page</ion-label>
       </ion-item>
     </div>
 
@@ -185,11 +185,34 @@
         <div class="cardscontainer">
           <ion-grid>
             <ion-row>
+
               <ion-col (click)="ChoosePhotoOption()" *ngFor="let item of [].constructor(12)">
-                <div class="imgcards">
+
+                <div *ngIf="!shopImages" class="imgcards">
+
                   <img class="upimgicon" src="../../assets/uploadimage.png" alt="">
+
                 </div>
+
               </ion-col>
+
+              <ion-col (click)="ChoosePhotoOption()" *ngIf="shopImages">
+
+                <div *ngFor="let item of shopImages.images" class="imgcards">
+
+                  <img class="upimgicon" src="{{item.clickedImage}}" alt="">
+
+                </div>
+
+                <div class="imgcards">
+
+                  <img class="upimgicon" src="../../assets/uploadimage.png" alt="">
+
+                </div>
+
+              </ion-col>
+
+
             </ion-row>
           </ion-grid>
 
@@ -200,8 +223,8 @@
           <ion-button (click)="create()" mode='ios' expand='block' color="dark">CREATE
             <ion-icon name="arrow-forward"></ion-icon>
           </ion-button>
-          <ion-button (click)="collectionstages('name')" fill='clear' mode='ios' expand='block' color="danger">
-            BACK
+          <ion-button (click)="deleteCollection()" fill='clear' mode='ios' expand='block' color="danger">
+            Cancel
             <ion-icon slot="start" name="arrow-back"></ion-icon>
           </ion-button>
         </div>
