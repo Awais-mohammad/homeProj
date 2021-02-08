@@ -1,5 +1,5 @@
 <ion-header *ngIf="!createcollection">
-<!--sdnvoiwr-->
+  <!--sdnvoiwr-->
   <ion-toolbar>
 
     <div class="header">
@@ -34,21 +34,22 @@
 
 <ion-content>
   <!--fsweg-->
-  
+
   <div *ngIf="!createcollection">
 
     <div class='topimg'>
       <img src="../../assets/pexels-photo-947914.jpeg" alt="">
     </div>
 
-    <div class='card-parent'>
+    <div *ngIf="shopData" class='card-parent'>
 
       <div class="card">
 
         <div class="imgcentre">
 
           <ion-avatar>
-            <img class="border imgheightWidth" src="../../assets/man.png" alt="">
+            <img class="border imgheightWidth" src="{{shopData.Df.sn.proto.mapValue.fields.ProfileImage.stringValue}}"
+              alt="">
           </ion-avatar>
 
           <ion-icon *ngIf="editPage" class="cameraicon" name="camera"></ion-icon>
@@ -58,7 +59,7 @@
         <div class="textCentre">
 
           <div *ngIf="!editPage" class="name">
-            my shop
+            {{shopData.Df.sn.proto.mapValue.fields.Name.stringValue}}
           </div>
 
           <div *ngIf="editPage">
@@ -79,7 +80,7 @@
         <div class="txt" class="otherDetails">
 
           <ion-item *ngIf="!editPage" class="txt" lines="none">
-            EMAIL:Awaifanfoe@gmail.com
+            {{shopData.Df.sn.proto.mapValue.fields.Email.stringValue}}
           </ion-item>
 
           <ion-list *ngIf="editPage" class="line-input">
@@ -92,37 +93,20 @@
           </ion-list>
 
           <ion-item *ngIf="!editPage" class="txt" lines="none">
-            Since
+            {{timeCalc(shopData.Df.sn.proto.mapValue.fields.RegisteredAt.integerValue)}}
           </ion-item>
 
           <ion-item *ngIf="!editPage" class="txt" lines="none">
-            Adress
+            {{shopData.Df.sn.proto.mapValue.fields.Adress.stringValue}}
           </ion-item>
 
           <ion-button *ngIf="editPage" expand="block" color="success">FETCH ADRESS</ion-button>
 
-          <ion-item *ngIf="!editPage" class="txt" lines="none">
-            Phone
-          </ion-item>
-
-          <ion-list *ngIf="editPage" class="line-input">
-            <ion-item>
-              <ion-label>Phone</ion-label>
-              <ion-input placeholder="Enter Phone"></ion-input>
-            </ion-item>
-          </ion-list>
 
           <ion-item *ngIf="!editPage" lines="none">
 
             <ion-label class="txt">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, sit!
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum aut, sequi laboriosam incidunt aliquam
-              quas illum cupiditate delectus architecto modi.
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, sit!
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum aut, sequi laboriosam incidunt aliquam
-              quas illum cupiditate delectus architecto modi.consectetur adipisicing elit. Assumenda, sit!
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum aut, sequi laboriosam incidunt aliquam
-              quas illum cupiditate delectus architecto modi.v
+              {{shopData.Df.sn.proto.mapValue.fields.Description.stringValue}}
             </ion-label>
           </ion-item>
 
@@ -213,7 +197,7 @@
 
         <div class="btnnext">
 
-          <ion-button (click)="collectionstages('uploadphotos')" mode='ios' expand='block' color="dark">CREATE
+          <ion-button (click)="create()" mode='ios' expand='block' color="dark">CREATE
             <ion-icon name="arrow-forward"></ion-icon>
           </ion-button>
           <ion-button (click)="collectionstages('name')" fill='clear' mode='ios' expand='block' color="danger">
