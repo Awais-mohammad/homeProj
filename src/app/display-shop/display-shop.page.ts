@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer/ngx";
 
 @Component({
   selector: 'app-display-shop',
@@ -22,6 +23,7 @@ export class DisplayShopPage implements OnInit {
     private firebaseauth: AngularFireAuth,
     private firestore: AngularFirestore,
     private camera: Camera,
+    public File: FileTransfer,
 
   ) { }
 
@@ -38,7 +40,7 @@ export class DisplayShopPage implements OnInit {
   minutesDifference: number;
   secondsDifference: number;
   timeAgo: string;
-
+  collectionID: string;
 
   //loading
   async presentLoading() {
@@ -128,6 +130,9 @@ export class DisplayShopPage implements OnInit {
   imageData: string;
 
   openGallery() {
+    this.loaderID = 'clickImage'
+    this.loadermsg = 'Hold a sec'
+    this.presentLoading()
     const optionsGallery: CameraOptions = {
       quality: 60,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -137,7 +142,7 @@ export class DisplayShopPage implements OnInit {
       this.imageData = imageData;
       this.msg = "Fetching Image this may take few seconds"
       this.presentToast();
-      //   this.uploadtoServer(type)
+      this.uploadImagetoServer()
     }, (err) => {
       this.msg = "Unable to Open gallery please use camera "
       this.presentToast();
@@ -148,8 +153,9 @@ export class DisplayShopPage implements OnInit {
   }
 
   capture() {
-
-
+    this.loaderID = 'clickImage'
+    this.loadermsg = 'Hold a sec'
+    this.presentLoading()
     let options = {
       quality: 60,
       targetHeight: 1200,
@@ -159,22 +165,51 @@ export class DisplayShopPage implements OnInit {
       .getPicture(options)
       .then((img) => {
         this.imageData = img;
-
-        //   this.uploadtoServer(type)
-
+        this.uploadImagetoServer()
       });
+  }
+
+  generateID() {
+    const docID = firebase.firestore().collection('shops').doc(this.PageID).collection(this.collectionName).doc().id
+    return docID;
+  }
+
+  uploadImagetoServer() {
+    this.collectionID = this.generateID()
+    const FileTransfer: FileTransferObject = this.File.create();
+    let opt: FileUploadOptions = {
+      fileKey: "file",
+      fileName: this.collectionID + '.jpg ' + Math.random(),
+      headers: {},
+    };
+    FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+      .then((upload) => {
+
+        this.clickedImage = "http://134.122.2.23/uploads/" + this.collectionID + '.jpg';
+        console.log(upload);
+
+      }).then(() => {
+        this.loading.dismiss('clickImage')
+        this.msg = 'Image updated'
+        this.presentToast()
+      }).catch(() => {
+        this.loading.dismiss('clickImage')
+        this.msg = 'Something went wrong please retry'
+        this.presentToast()
+      })
   }
 
 
   create() {
-    const docID = firebase.firestore().collection('shops').doc(this.PageID).collection(this.collectionName).doc().id
     const collectionName = this.collectionName;
     const timestamp = Date.now()
+    const docID = this.collectionID
     const ownerID = this.shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue
     this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).doc(docID).set({
       collectionName,
       timestamp,
       ownerID,
+      docID,
     })
   }
 

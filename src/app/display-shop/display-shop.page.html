@@ -185,7 +185,7 @@
         <div class="cardscontainer">
           <ion-grid>
             <ion-row>
-              <ion-col *ngFor="let item of [].constructor(12)">
+              <ion-col (click)="ChoosePhotoOption()" *ngFor="let item of [].constructor(12)">
                 <div class="imgcards">
                   <img class="upimgicon" src="../../assets/uploadimage.png" alt="">
                 </div>

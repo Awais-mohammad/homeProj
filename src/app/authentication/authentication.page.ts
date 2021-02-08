@@ -194,7 +194,7 @@ export class AuthenticationPage implements OnInit {
             })
           })
 
-          authSub.unsubscribe();
+        
 
         })
 
