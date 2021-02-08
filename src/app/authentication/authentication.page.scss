@@ -22,7 +22,7 @@ img {
 }
 
 .line-input {
-  margin-bottom: 0 !important;
+  margin-bottom: 10px !important;
   ion-item {
     --border-color: transparent !important;
     --highlight-height: 0;
@@ -203,6 +203,12 @@ ion-input {
   top: 4em;
   z-index:5;
 }
+.loginButn2 {
+  padding: 1em;
+  position: relative;
+  top: 3em;
+  z-index:5;
+}
 
 .gotosignupButn {
   padding: 1em;
@@ -211,25 +217,36 @@ ion-input {
   z-index:5;
 }
 
+.gotosignupButn2 {
+  padding: 1em;
+  position: relative;
+  top: 2em;
+  z-index:5;
+}
+
 .Headin {
   left: 6%;
   font-family: "Exo", "sans-serif";
+  z-index:5;
 }
 .Headin2 {
   position: relative;
   top: 3em;
   left: 6%;
   color: grey;
+  z-index:5;
 }
 .InputFields {
   position: relative;
   top: 3em;
   left: 4%;
+  z-index:5;
 }
 .signUpbtn {
   padding: 2em;
   position: relative;
   top: 1em;
+  z-index:5;
 }
 
 #page {

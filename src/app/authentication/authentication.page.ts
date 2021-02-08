@@ -52,6 +52,7 @@ export class AuthenticationPage implements OnInit {
       message: this.loadermsg,
       spinner: 'dots',
       id: this.loaderID,
+      mode:"ios",
 
     });
     await loading.present();
@@ -151,7 +152,7 @@ export class AuthenticationPage implements OnInit {
     }
     else {
       this.loaderID = 'signup'
-      this.loadermsg = 'Loading....'
+      this.loadermsg = 'Registering as new user..'
       this.presentLoading();
       this.firebaseauth.auth.createUserWithEmailAndPassword(this.email, this.password).then(user => {
 
@@ -228,7 +229,7 @@ export class AuthenticationPage implements OnInit {
     }
     else {
       this.loaderID = 'goHome'
-      this.loadermsg = 'Loading....'
+      this.loadermsg = 'Logging in...'
       this.presentLoading();
       this.userEmail = this.userEmail.toLocaleLowerCase();
 
