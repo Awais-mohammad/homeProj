@@ -52,7 +52,7 @@ export class AuthenticationPage implements OnInit {
       message: this.loadermsg,
       spinner: 'dots',
       id: this.loaderID,
-      mode: "ios",
+      mode:"ios",
 
     });
     await loading.present();
@@ -112,8 +112,6 @@ export class AuthenticationPage implements OnInit {
 
   }
   deviceID: string;
-  userID: string;
-
   validatesignupForm() {
 
     if (this.email) {
@@ -159,9 +157,9 @@ export class AuthenticationPage implements OnInit {
       this.firebaseauth.auth.createUserWithEmailAndPassword(this.email, this.password).then(user => {
 
         const authSub = this.firebaseauth.authState.subscribe(current_user => {
-          this.userID = current_user.uid
           this.oneSignal.getIds().then(identity => {
             console.log('plaerid', identity.userId);
+
             this.deviceID = identity.userId;
             const ProfileImage = 'http://134.122.2.23/uploads/man.png'
             const Name = this.name.toLocaleUpperCase();
@@ -171,7 +169,7 @@ export class AuthenticationPage implements OnInit {
             const timeJoined = Date.now();
             const Adress = this.adress;
             const type = "USER"
-            const userID = this.userID;
+            const userID = current_user.uid;
             const deviceID = this.deviceID
             this.firestore.collection('users').doc(current_user.uid).set({
               Name,
@@ -189,12 +187,14 @@ export class AuthenticationPage implements OnInit {
                 this.msg = "You have registered successfully please confirm account"
                 this.presentToast();
                 this.firebaseauth.auth.signOut();
+              }).then(() => {
+
               })
 
             })
           })
 
-
+        
 
         })
 
@@ -206,7 +206,7 @@ export class AuthenticationPage implements OnInit {
             this.currentPage = false;
           }
         })
-      }, 5000);
+      }, 2000);
     }
   }
 
