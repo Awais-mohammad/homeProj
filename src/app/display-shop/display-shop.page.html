@@ -33,8 +33,9 @@
 </ion-header>
 
 <ion-content>
-  <!--fsweg-->
 
+
+  <!--main page-->
   <div *ngIf="!createcollection">
 
     <div class='topimg'>
@@ -135,8 +136,6 @@
             <ion-label class="greenColor">{{ite.collectionName}}</ion-label>
           </ion-item>
 
-          <ion-button mode='ios' color="warning" fill='outline'>update</ion-button>
-
         </div>
 
         <div class="caard-container">
@@ -150,6 +149,7 @@
 
   </div>
 
+  <!--Create collection-->
   <div *ngIf="createcollection">
     <img src="../../assets/icon/tree.png" class="topleftimage" alt="">
     <ion-label class="alignleft">TERRAPLANTERA</ion-label>

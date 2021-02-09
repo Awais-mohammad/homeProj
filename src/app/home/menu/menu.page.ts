@@ -300,7 +300,6 @@ export class MenuPage implements OnInit {
       label: 'You are here',
       animation: google.maps.Animation.BOUNCE,
       zIndex: 1,
-      icon: 'http://134.122.2.23/icon.jpeg',
     });
 
 
@@ -341,7 +340,7 @@ export class MenuPage implements OnInit {
       }
     })
 
-    this.firestore.collection('users', q => q.where('type', '==', 'VENDOR')).valueChanges().subscribe(res => {
+    this.firestore.collection('shops').valueChanges().subscribe(res => {
       if (res.length < 1) {
         console.log('no vendors');
 

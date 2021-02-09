@@ -94,7 +94,6 @@
         border-radius: 25px;
         width: 7em;
         height: 5em;
-       
     }
 }
 
@@ -215,6 +214,16 @@ ion-avatar {
 .uploadimg {
     height: 100%;
     width: 100%;
+}
+
+.updatecolname {
+    position: relative;
+    padding: 2em;
+    top: 4em;
+}
+.images {
+    position: relative;
+    top: 3em;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
