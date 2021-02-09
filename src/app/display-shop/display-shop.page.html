@@ -4,9 +4,14 @@
 
     <div class="header">
       <ion-icon (click)="closePage()" class="iconheight" name="chevron-back"></ion-icon>
-      <ion-label class="toggledfont" style="position: relative;top: 4px;">PAGE NAME</ion-label>
-      <ion-icon *ngIf="!list" (click)="showHidelist()" class="iconheight" name="caret-down"></ion-icon>
-      <ion-icon *ngIf="list" (click)="showHidelist()" class="iconheight" name="caret-up"></ion-icon>
+      <ion-label class="toggledfont" style="position: relative;top: 4px;">DISPLAY SHOP</ion-label>
+      <ion-icon *ngIf="userID == shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && !list"
+        (click)="showHidelist()" class="iconheight" name="caret-down"></ion-icon>
+
+      <ion-icon *ngIf="userID == shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && list"
+        (click)="showHidelist()" class="iconheight" name="caret-up"></ion-icon>
+
+      <ion-icon *ngIf = "userID != shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && !list"></ion-icon>
     </div>
 
   </ion-toolbar>
@@ -181,6 +186,12 @@
     </div>
 
     <div *ngIf="stage=='uploadphotos'">
+      <div style="text-align: center;">
+        <ion-button (click)="deleteCollection()" fill='clear' mode='ios' expand='block' color="danger">
+          Cancel
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+        </ion-button>
+      </div>
       <div class="fadeInRight" class="midle">
         <ion-label class="lordrinafont">ADD IMAGES TO COLLECTIONS</ion-label>
 
@@ -202,15 +213,12 @@
 
                 <ion-col *ngFor="let item of shopImages.images">
 
-                  <div class="imgcards">
-
-                    <img class="uploadimg" src="{{item.clickedImage}}" alt="">
-
-                  </div>
-
-                  <ion-icon (click)="removeimage(item.clickedImage)" style="position: relative;" color="tertiary"
-                    name='trash'></ion-icon>
-
+                  <img src="{{item.clickedImage}}" alt="">
+                  <ion-chip color="none" style="background: rgb(241, 238, 238);">
+                    <ion-icon (click)="removeimage(item.clickedImage)" size="large" style="position: relative;"
+                      color="danger" name='trash'></ion-icon><span
+                      style="font-family: monospace; color:red;font-weight: bold;">Delete</span>
+                  </ion-chip>
                 </ion-col>
 
               </div>
@@ -221,18 +229,15 @@
         </div>
 
         <div class="btnnext">
-          <ion-button (click)="ChoosePhotoOption()" *ngIf="shopImages" fill='outline' color="success">UPLOAD MORE
+          <ion-button (click)="ChoosePhotoOption()" *ngIf="shopImages" fill='clear' color="success">UPLOAD MORE
             <ion-icon color="success" slot="start" name="add-outline"></ion-icon>
           </ion-button>
 
           <ion-button (click)="create()" mode='ios' expand='block' color="dark">CREATE
             <ion-icon name="arrow-forward"></ion-icon>
           </ion-button>
-          <ion-button (click)="deleteCollection()" fill='clear' mode='ios' expand='block' color="danger">
-            Cancel
-            <ion-icon slot="start" name="arrow-back"></ion-icon>
-          </ion-button>
         </div>
+
 
       </div>
     </div>

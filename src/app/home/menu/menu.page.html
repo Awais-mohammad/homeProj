@@ -1,14 +1,16 @@
 <ion-header>
   <ion-toolbar>
 
-    <div class="iconSize"
-      style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;">
-      <ion-label style="font-weight:bold;color: blue;">MAPS</ion-label>
-      <ion-icon color="tertiary" (click)="presentActionSheet()" name="settings-outline"></ion-icon>
+    <div class="iconSize" style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;
+          font-size: 24px;">
+      <ion-icon (click)="getuser()" name="map-outline" slot="start"></ion-icon>
+      <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">Maps</ion-label>
+      <ion-icon (click)="presentActionSheet()" name="ellipsis-vertical-outlinee"></ion-icon>
     </div>
 
   </ion-toolbar>
 </ion-header>
+
 <ion-content data-no-turbolink>
 
   <div id="map"></div>

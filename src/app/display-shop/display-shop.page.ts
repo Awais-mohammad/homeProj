@@ -176,7 +176,6 @@ export class DisplayShopPage implements OnInit {
   }
 
   uploadImagetoServer() {
-    alert(this.clickedImage)
     if (!this.clickedImage) {
       this.collectionID = this.generateID()
       const FileTransfer: FileTransferObject = this.File.create();
@@ -399,10 +398,14 @@ export class DisplayShopPage implements OnInit {
     })
   }
 
+  userID: string;
 
   ngOnInit() {
     this.getPageData()
     this.getcollections()
+    const authsub = this.firebaseauth.authState.subscribe(res => {
+      this.userID = res.uid
+    })
   }
 
 }

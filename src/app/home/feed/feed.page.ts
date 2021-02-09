@@ -17,6 +17,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
 import { CommentsPage } from 'src/app/comments/comments.page';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: "app-feed",
@@ -39,7 +40,8 @@ export class FeedPage implements OnInit {
     private statusBar: StatusBar,
     public admob: AdMobFree,
     private platform: Platform,
-    private socialSharing: SocialSharing
+    private socialSharing: SocialSharing,
+    public actionSheetController: ActionSheetController,
 
   ) {
     let currentDate = new Date();
@@ -64,6 +66,8 @@ export class FeedPage implements OnInit {
       spinner: "dots",
       mode: 'ios',
       id: this.loaderID,
+      duration: 4000,
+      backdropDismiss: true,
     });
     await loading.present();
   }
@@ -123,8 +127,8 @@ export class FeedPage implements OnInit {
     this.presentModal2(ID);
   }
 
-  share(post){
-    this.socialSharing.share("Check out this image by "+post.uploadedBy,"",post.imageURL,post.imageURL).catch(err=>{
+  share(post) {
+    this.socialSharing.share("Check out this image by " + post.uploaderName + " on Terraplanterra", "", post.imageURL).catch(err => {
       alert(JSON.stringify(err));
     });
   }
@@ -137,6 +141,29 @@ export class FeedPage implements OnInit {
       event.target.complete();
       this.getPosts();
     }, 2000);
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      cssClass: 'my-custom-class',
+      mode:'ios',
+      buttons: [{
+        text: 'Logout',
+        icon: 'log-out-outline',
+        handler: () => {
+          this.firebaseauth.auth.signOut();
+          this.router.navigate(['authentication']);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
   getPosts() {

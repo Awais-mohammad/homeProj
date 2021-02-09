@@ -3,7 +3,8 @@
 
     <div class="iconSize"
       style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;">
-      <ion-label style="font-weight:bold;color: blue;">MENU</ion-label>
+      <ion-icon name="settings" slot="start"></ion-icon>
+      <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">Settings</ion-label>
       <ion-icon (click)="showHideSearchBar('null')" name="search"></ion-icon>
     </div>
 
@@ -24,19 +25,17 @@
 
   <div *ngIf="currentDiv=='menu' && !showSearchBar">
 
+    <div style="text-align: center;">
+      <img *ngIf="!userData.ProfileImage" src="./../../../assets/man.png">
+      <img *ngIf="userData.ProfileImage" src="{{userData.ProfileImage}}">
+      <ion-label class="label">
+        <h1 style="font-weight: bold;font-family: 'ubuntu-dark';color:rgb(50, 170, 50);">{{userData.Name}}</h1>
+        <p fill="clear" style="font-size: 0.8rem;" (click)="openProfileModal(userData.userID)">View profile</p>
+      </ion-label>
+      <div style = "border-bottom: 1px solid rgba(0, 0, 0, 0.575)"></div>
+    </div>
     <div>
       <ion-list>
-        <ion-item *ngIf="userData" (click)="openProfileModal(userData.userID)">
-          <ion-avatar slot="start">
-            <img *ngIf="!userData.ProfileImage" src="./../../../assets/man.png">
-            <img *ngIf="userData.ProfileImage" src="{{userData.ProfileImage}}">
-          </ion-avatar>
-          <ion-label class="label">
-            <h3>{{userData.Name}}</h3>
-            <p style="font-size: 0.8rem;">View your profile</p>
-          </ion-label>
-        </ion-item>
-
         <ion-item *ngIf="!shopdata" (click)="changecurrentDisplay('dispshop')">
           <ion-avatar slot="start">
             <img style="object-fit: cover;" src="../../../assets/shop.png">

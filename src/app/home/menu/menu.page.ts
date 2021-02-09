@@ -8,6 +8,8 @@ import { AlertController, ActionSheetController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import * as firebase from "firebase/app"
+import { UserProfilePage } from 'src/app/user-profile/user-profile.page';
+import { DisplayShopPage } from 'src/app/display-shop/display-shop.page';
 
 declare var google: any;
 @Component({
@@ -45,15 +47,7 @@ export class MenuPage implements OnInit {
 
 
   //loading
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      message: this.loadermsg,
-      spinner: 'dots',
-      id: this.loaderID,
-      duration: 10000,
-    });
-    await loading.present();
-  }
+
   //show toast
   async presentToast() {
     const toast = await this.toastControll.create({
@@ -70,9 +64,11 @@ export class MenuPage implements OnInit {
     const actionSheet = await this.actionSheetController.create({
       header: 'CHOOSE WHAT TO SEE ON MAP',
       cssClass: 'my-custom-class',
+      mode: 'ios',
       buttons: [{
         text: 'My Plantations',
         icon: 'rose-outline',
+
         handler: () => {
 
           this.showVendors = false;
@@ -122,7 +118,7 @@ export class MenuPage implements OnInit {
       {
         text: 'Cancel',
         icon: 'close',
-        role: 'cancel',
+        role: 'destructive',
         handler: () => {
           this.msg = 'no changes done'
           this.presentToast()
@@ -144,27 +140,22 @@ export class MenuPage implements OnInit {
     this.currentUID = this.firebaseauth.auth.currentUser.uid;
     if (!this.currentUID) {
       this.msg = 'failed to fetch location Retrying'
-      this.presentLoading();
       this.getGeolocation();
     }
     else if (!this.address) {
       this.msg = 'failed to fetch location Retrying'
-      this.presentLoading();
       this.getGeolocation();
     }
     else if (this.latitude == null) {
       this.msg = 'failed to fetch location Retrying'
-      this.presentLoading();
       this.getGeolocation();
     }
     else if (!this.longitude == null) {
       this.msg = 'failed to fetch location Retrying'
-      this.presentLoading();
       this.getGeolocation();
     }
     else if (this.accuracy == null) {
       this.msg = 'failed to fetch location Retrying'
-      this.presentLoading();
       this.getGeolocation();
     }
     else {
@@ -189,7 +180,6 @@ export class MenuPage implements OnInit {
   getGeolocation() {
     this.loaderID = 'locationfetch'
     this.loadermsg = 'Fetching location'
-    this.presentLoading();
     this.geolocation.getCurrentPosition().then((resp) => {
 
       this.latitude = resp.coords.latitude;
@@ -299,7 +289,7 @@ export class MenuPage implements OnInit {
       map: map,
       label: 'You are here',
       animation: google.maps.Animation.BOUNCE,
-      zIndex: 1,
+      zIndex: 3,
     });
 
 
@@ -348,17 +338,19 @@ export class MenuPage implements OnInit {
       else {
         if (this.showVendors) {
           this.vendors = res;
-          console.log('vendors found', this.vendors);
           for (var i = 0; i < this.vendors.length; i++) {
-            if (this.vendors[i].Lattitude && this.vendors[i].Longitude) {
-              var venmarkers = new google.maps.Marker({
-                position: { lat: this.vendors[i].Lattitude, lng: this.vendors[i].Longitude },
+            if (this.vendors[i].lattitude && this.vendors[i].longitude) {
+              const venmarkers = new google.maps.Marker({
+                position: { lat: this.vendors[i].lattitude, lng: this.vendors[i].longitude },
                 map: map,
                 animation: google.maps.Animation.DROP,
-                zIndex: 1,
+                zIndex: 12,
                 icon: 'https://img.icons8.com/doodle/2x/flower-vase.png'
               });
-
+              const a = this.vendors[i].docID;
+              venmarkers.addListener("click", () => {
+                this.addlistenersonmarker(a);
+              });
             }
           }
 
@@ -460,6 +452,20 @@ export class MenuPage implements OnInit {
     });
 
   }
+
+  async addlistenersonmarker(markers: any) {
+    const model = await this.ModalCtrl.create({
+      component: DisplayShopPage,
+      cssClass: "my-custom-class",
+      id: "userprofile",
+      componentProps: {
+        PageID: markers,
+      },
+    });
+    return await model.present();
+  }
+
+
   num: any
   images: any;
   async openPolygon(poly) {

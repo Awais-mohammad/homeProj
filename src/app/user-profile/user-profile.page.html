@@ -1,9 +1,11 @@
 <ion-header *ngIf="!fullpageImage">
   <ion-toolbar>
-    <div *ngIf="currentDiv=='profile' && userData && !fullpageImage" class="top">
-      <ion-title> {{userData.Name}}</ion-title>
-      <ion-button fill="clear" color="danger" (click)="closePage()">
-        Close</ion-button>
+    <div *ngIf="currentDiv=='profile' && userData && !fullpageImage" style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;font-size:19px;">
+        <ion-icon name="close-outline" slot="start" (click) = "closePage()"></ion-icon>
+        <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">User Profile</ion-label>
+        <ion-icon *ngIf="currentuserID != UserID && !foollow" name="add-outline" (click)="follow()"></ion-icon>
+        <ion-icon *ngIf="currentuserID == UserID"></ion-icon>
+
     </div>
 
     <div *ngIf="currentDiv=='gallery' && userData && !fullpageImage" class="top">
@@ -25,10 +27,7 @@
       <div style="margin-top: 0;padding-top: 0;" *ngIf="userData" class="profile">
 
         <div class="profile-image">
-
           <img *ngIf="userData.ProfileImage" src="{{userData.ProfileImage}}" alt="">
-
-
         </div>
 
         <div style="margin: 0;padding: 0;" class="profile-user-settings">
