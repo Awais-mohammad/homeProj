@@ -62,6 +62,7 @@ export class FeedPage implements OnInit {
     const loading = await this.loading.create({
       message: this.loadermsg,
       spinner: "dots",
+      mode: 'ios',
       id: this.loaderID,
     });
     await loading.present();
@@ -106,18 +107,18 @@ export class FeedPage implements OnInit {
     return await model.present();
   }
 
-  async presentModal2(DOCID:string) {
+  async presentModal2(DOCID: string) {
     const modal = await this.modal.create({
       component: this.ModalPage,
-      mode:"ios",
+      mode: "ios",
       componentProps: {
-        ID:DOCID,
+        ID: DOCID,
       }
     });
     return await modal.present();
   }
 
-  comments(ID:string){
+  comments(ID: string) {
     this.ModalPage = CommentsPage;
     this.presentModal2(ID);
   }
@@ -331,6 +332,7 @@ export class FeedPage implements OnInit {
 
           });
       });
+
   }
   showBanner() {
     console.log('banner for adds');
