@@ -171,11 +171,12 @@ export class DisplayShopPage implements OnInit {
   }
 
   generateID() {
-    const docID = firebase.firestore().collection('shops').doc(this.PageID).collection(this.collectionName).doc().id
+    const docID = firebase.firestore().collection('shops').doc(this.PageID).collection('shopcollections').doc().id
     return docID;
   }
 
   uploadImagetoServer() {
+    alert(this.clickedImage)
     if (!this.clickedImage) {
       this.collectionID = this.generateID()
       const FileTransfer: FileTransferObject = this.File.create();
@@ -187,7 +188,7 @@ export class DisplayShopPage implements OnInit {
       FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + this.collectionID + '.jpg';
+          this.clickedImage = "http://134.122.2.23/uploads/" + this.collectionID + '.jpg%20';
           console.log(upload);
 
         }).then(() => {
@@ -213,7 +214,7 @@ export class DisplayShopPage implements OnInit {
       FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + imageURL + '.jpg';
+          this.clickedImage = "http://134.122.2.23/uploads/" + imageURL + '.jpg%20';
           console.log(upload);
 
         }).then(() => {
@@ -238,7 +239,7 @@ export class DisplayShopPage implements OnInit {
     const clickedImage = this.clickedImage
 
     if (decide == 'one') {
-      this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).doc(docID).set({
+      this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').doc(docID).set({
         collectionName,
         collectionID,
         createdAt,
@@ -246,17 +247,17 @@ export class DisplayShopPage implements OnInit {
           clickedImage
         })
       }).then(() => {
-        this.getcurrentcolimages()
+        this.getcurrentcolimages(docID)
       })
     }
 
     else if (decide == 'two') {
-      this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).doc(docID).update({
+      this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').doc(docID).update({
         images: firebase.firestore.FieldValue.arrayUnion({
           clickedImage
         })
       }).then(() => {
-        this.getcurrentcolimages()
+        this.getcurrentcolimages(docID)
       })
 
     }
@@ -264,35 +265,82 @@ export class DisplayShopPage implements OnInit {
 
   shopImages: any;
 
-  getcurrentcolimages() {
+  getcurrentcolimages(docID) {
     this.firestore.collection('shops').doc(this.PageID)
-      .collection(this.collectionName).doc(this.collectionID).valueChanges().subscribe(data => {
+      .collection('shopcollections').doc(docID).valueChanges().subscribe(data => {
         this.shopImages = data;
         console.log('shop images=>', this.shopImages);
-
       })
   }
 
   create() {
-    const collectionName = this.collectionName;
-    const timestamp = Date.now()
-    const docID = this.collectionID
-    const ownerID = this.shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue
-    this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).doc(docID).set({
-      collectionName,
-      timestamp,
-      ownerID,
-      docID,
-    })
+
+    if (this.shopImages) {
+
+      if (this.shopImages.images.length <= 5) {
+        this.msg = 'minimum 6 images required!!'
+        this.presentToast()
+      }
+      else {
+        const collectionName = this.collectionName;
+        const timestamp = Date.now()
+        const docID = this.collectionID
+        const ownerID = this.shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue
+        this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').doc(docID).set({
+          collectionName,
+          timestamp,
+          ownerID,
+          docID,
+        }).then(() => {
+          this.clickedImage = ''
+          this.shopImages = ''
+          this.msg = 'collection added sucessfully!'
+          this.presentToast()
+          this.createcollection = !this.createcollection
+
+        }).catch(() => {
+          this.clickedImage = ''
+          this.shopImages = ''
+          this.msg = 'unable to add collection please retry'
+          this.presentToast()
+          this.createcollection = !this.createcollection
+        })
+      }
+
+    }
+
+    else {
+      this.msg = 'Images are required'
+      this.presentToast()
+    }
   }
 
   deleteCollection() {
-    this.firestore.collection('shops').doc(this.PageID).collection(this.collectionName).
+    this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').
       doc(this.collectionID).delete().then(() => {
         this.msg = 'Discarded!!!'
         this.presentToast()
         this.createcollection = !this.createcollection
+        this.showHidelist()
+        this.clickedImage = ''
+        this.shopImages = ''
       })
+  }
+
+  removeimage(imageID: string) {
+
+    const clickedImage = imageID
+    this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').doc(this.collectionID).update({
+      images: firebase.firestore.FieldValue.arrayRemove({
+        clickedImage
+      })
+    }).then(() => {
+      this.msg = 'image removed'
+      this.presentToast()
+    }).catch(err => {
+      this.msg = err.message
+      this.presentToast()
+    })
   }
 
   deleteshop() {
@@ -328,8 +376,19 @@ export class DisplayShopPage implements OnInit {
     }
   }
 
-  getcollections() {
+  collections: any;
 
+  getcollections() {
+    this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').valueChanges().subscribe(col => {
+      if (col.length < 1) {
+        this.msg = 'no collections found. Create 1 in seconds'
+        this.presentToast()
+
+      }
+      else {
+        this.collections = col
+      }
+    })
   }
 
   getPageData() {
@@ -340,8 +399,10 @@ export class DisplayShopPage implements OnInit {
     })
   }
 
+
   ngOnInit() {
     this.getPageData()
+    this.getcollections()
   }
 
 }

@@ -573,7 +573,7 @@ export class ProfilePage implements OnInit {
         this.currentUserID = user.uid
         this.getUserData(this.currentUserID);
         this.checkUserrequest(this.currentUserID)
-        this.getshops()
+
         subscribe.unsubscribe();
       })
     }
@@ -581,7 +581,7 @@ export class ProfilePage implements OnInit {
       this.currentUserID = this.firebaseauth.auth.currentUser.uid;
       this.getUserData(this.currentUserID);
       this.checkUserrequest(this.currentUserID)
-      this.getshops()
+
     }
   }
 

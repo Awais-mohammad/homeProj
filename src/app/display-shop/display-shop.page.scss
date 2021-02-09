@@ -92,7 +92,9 @@
         flex: 0 0 auto;
         padding: 4px;
         border-radius: 25px;
-        width: 50%;
+        width: 7em;
+        height: 5em;
+       
     }
 }
 
@@ -102,6 +104,9 @@
 }
 .imgborder {
     border-radius: 25px;
+    object-fit: contain;
+    height: 5em;
+    width: 7em;
 }
 .greenColor {
     color: green;
@@ -193,6 +198,11 @@ ion-avatar {
     position: relative;
     top: 4em;
 }
+.iimgcards {
+    border-radius: 12px;
+    width: 100px;
+    height: 100px;
+}
 .upimgicon {
     height: 30px;
 }
@@ -200,6 +210,11 @@ ion-avatar {
     position: relative;
     top: 5em;
     padding: 3px;
+}
+
+.uploadimg {
+    height: 100%;
+    width: 100%;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");

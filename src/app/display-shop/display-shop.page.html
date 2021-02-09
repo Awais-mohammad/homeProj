@@ -127,21 +127,23 @@
 
     </div>
 
-    <div class="moveUp" *ngFor="let item of [].constructor(10)">
+    <div *ngIf="collections">
+      <div class="moveUp" *ngFor="let ite of collections">
 
-      <div class="spacebetween">
-        <ion-item lines="none">
-          <ion-label class="greenColor">ROSE</ion-label>
-        </ion-item>
+        <div class="spacebetween">
+          <ion-item lines="none">
+            <ion-label class="greenColor">{{ite.collectionName}}</ion-label>
+          </ion-item>
 
-        <ion-button mode='ios' color="warning" fill='outline'>update</ion-button>
+          <ion-button mode='ios' color="warning" fill='outline'>update</ion-button>
 
-      </div>
+        </div>
 
-      <div class="caard-container">
+        <div class="caard-container">
 
-        <div *ngFor="let item of [].constructor(10)" class="caard">
-          <img class="imgborder" src="../../assets/pexels-photo-947914.jpeg" alt="">
+          <div *ngFor="let item of ite.images" class="caard">
+            <img class="imgborder" src="{{item.clickedImage}}" alt="">
+          </div>
         </div>
       </div>
     </div>
@@ -196,22 +198,22 @@
 
               </ion-col>
 
-              <ion-col (click)="ChoosePhotoOption()" *ngIf="shopImages">
+              <div *ngIf="shopImages">
 
-                <div *ngFor="let item of shopImages.images" class="imgcards">
+                <ion-col *ngFor="let item of shopImages.images">
 
-                  <img class="upimgicon" src="{{item.clickedImage}}" alt="">
+                  <div class="imgcards">
 
-                </div>
+                    <img class="uploadimg" src="{{item.clickedImage}}" alt="">
 
-                <div class="imgcards">
+                  </div>
 
-                  <img class="upimgicon" src="../../assets/uploadimage.png" alt="">
+                  <ion-icon (click)="removeimage(item.clickedImage)" style="position: relative;" color="tertiary"
+                    name='trash'></ion-icon>
 
-                </div>
+                </ion-col>
 
-              </ion-col>
-
+              </div>
 
             </ion-row>
           </ion-grid>
@@ -219,6 +221,9 @@
         </div>
 
         <div class="btnnext">
+          <ion-button (click)="ChoosePhotoOption()" *ngIf="shopImages" fill='outline' color="success">UPLOAD MORE
+            <ion-icon color="success" slot="start" name="add-outline"></ion-icon>
+          </ion-button>
 
           <ion-button (click)="create()" mode='ios' expand='block' color="dark">CREATE
             <ion-icon name="arrow-forward"></ion-icon>
