@@ -6,7 +6,7 @@ import { LoadingController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
-
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Component({
   selector: 'app-comments',
@@ -21,6 +21,7 @@ export class CommentsPage implements OnInit {
     private fireStore: AngularFirestore,
     public toastController: ToastController,
     public loadingController: LoadingController,
+    private http: HttpClient,
   ) { }
 
   @Input() ID: string;
@@ -102,6 +103,8 @@ export class CommentsPage implements OnInit {
     })
   }
 
+  uploaderData:any;
+  playerID:any;
   addComment() {
     if (this.msg != undefined && this.msg.length > 1) {
       const msg = this.msg;
@@ -112,13 +115,68 @@ export class CommentsPage implements OnInit {
           msg, time, name
         })
       }).then(() => {
-        this.msg = "";
-      });
+        this.msg="";
+        this.fireStore
+          .collection("users")
+          .doc(this.post.uploadedBy)
+          .valueChanges()
+          .subscribe((UploaderData) => {
+            this.uploaderData = UploaderData;
+            console.log("uploaderrr", this.uploaderData.deviceID);
+            this.playerID = this.uploaderData.deviceID;
+            const message = this.name + ' commented on your photo'
+            const playerID = this.playerID
+            this.sendNotification(message, playerID)
+          });
+      })
+        .then(() => {
+          const docID = firebase.firestore().collection("notifications").doc().id;
+          const message = this.name + " commented on your photo";
+          const notificationFor = this.post.uploadedBy;
+          const sentAt = Date.now();
+          const sentBy = this.name;
+          this.fireStore.collection("notifications").doc(docID).set({
+            docID,
+            message,
+            notificationFor,
+            sentAt,
+            sentBy,
+          });
+        })
+        .then(() => {
+          this.msg2 = "Commented Successfully!";
+          this.color = "success";
+          this.presentToast();
+        });
     } else {
       this.msg2 = "Comment too short!";
       this.color = "danger";
       this.presentToast();
     }
+  }
+
+  sendNotification(content, playerID) {
+
+    var header = new HttpHeaders();
+    header.append("Content-Type", "application/json");
+
+
+    return this.http
+      .post(
+        "http://134.122.2.23/useruserpush.php",
+        {
+          message: content,
+          playerID: playerID,
+        },
+        { headers: header, responseType: "text" }
+      )
+      .subscribe(
+        (resp) => {
+          console.log(resp);
+        },
+        (error) => { }
+      );
+
   }
 
   ionViewWillLeave() {

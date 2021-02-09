@@ -16,6 +16,7 @@ import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
 import { CommentsPage } from 'src/app/comments/comments.page';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: "app-feed",
@@ -38,6 +39,7 @@ export class FeedPage implements OnInit {
     private statusBar: StatusBar,
     public admob: AdMobFree,
     private platform: Platform,
+    private socialSharing: SocialSharing
 
   ) {
     let currentDate = new Date();
@@ -118,6 +120,12 @@ export class FeedPage implements OnInit {
   comments(ID:string){
     this.ModalPage = CommentsPage;
     this.presentModal2(ID);
+  }
+
+  share(post){
+    this.socialSharing.share("Check out this image by "+post.uploadedBy,"",post.imageURL,post.imageURL).catch(err=>{
+      alert(JSON.stringify(err));
+    });
   }
 
   doRefresh(event) {
