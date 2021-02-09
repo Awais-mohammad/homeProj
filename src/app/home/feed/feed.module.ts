@@ -9,6 +9,7 @@ import { FeedPageRoutingModule } from './feed-routing.module';
 
 import { FeedPage } from './feed.page';
 import { UserProfilePage } from 'src/app/user-profile/user-profile.page';
+import { CommentsPage } from 'src/app/comments/comments.page';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { UserProfilePage } from 'src/app/user-profile/user-profile.page';
     FeedPageRoutingModule
   ],
   declarations: [FeedPage],
-  entryComponents: [UserProfilePage, DisplayShopPage]
+  entryComponents: [UserProfilePage, DisplayShopPage,CommentsPage]
 })
 export class FeedPageModule { }

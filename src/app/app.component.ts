@@ -200,6 +200,8 @@ export class AppComponent {
       console.log('platform ready');
 
       this.statusBar.show();
+      this.statusBar.backgroundColorByHexString("ffffff");
+      this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.setupPush()
       this.checkLogin();

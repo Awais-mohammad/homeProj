@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'display-shop',
     loadChildren: () => import('./display-shop/display-shop.module').then( m => m.DisplayShopPageModule)
+  },  {
+    path: 'comments',
+    loadChildren: () => import('./comments/comments.module').then( m => m.CommentsPageModule)
   },
+
  
 
 ];

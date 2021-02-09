@@ -15,6 +15,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-nati
 import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
+import { CommentsPage } from 'src/app/comments/comments.page';
 
 @Component({
   selector: "app-feed",
@@ -52,6 +53,7 @@ export class FeedPage implements OnInit {
   msg: string;
   today: any;
   selectedPhoto: any;
+  ModalPage: any;
 
   //loading
   async presentLoading() {
@@ -102,6 +104,21 @@ export class FeedPage implements OnInit {
     return await model.present();
   }
 
+  async presentModal2(DOCID:string) {
+    const modal = await this.modal.create({
+      component: this.ModalPage,
+      mode:"ios",
+      componentProps: {
+        ID:DOCID,
+      }
+    });
+    return await modal.present();
+  }
+
+  comments(ID:string){
+    this.ModalPage = CommentsPage;
+    this.presentModal2(ID);
+  }
 
   doRefresh(event) {
     console.log("Begin async operation");
@@ -131,14 +148,15 @@ export class FeedPage implements OnInit {
           this.posts = post;
 
           for (var i = 0; i < this.posts.length; i++) {
-            if (this.posts[i].likes)
-              for (var j = 0; j < this.posts[i].likes.length; j++) {
-                if (this.posts[i].likes[j].LikedBy == this.currentUserID) {
-                  this.posts[i].Liked = true;
-                } else {
-                  this.posts[i].Liked = false;
+            if (this.posts[i].likedBy) {
+              for (let liker of this.posts[i].likedBy) {
+                if (liker == this.firebaseauth.auth.currentUser.uid) {
+                  this.posts[i].liked = true;
                 }
               }
+            } else {
+              this.posts[i].liked = false;
+            }
           }
         }
         this.loading.dismiss('lolo')
@@ -210,34 +228,25 @@ export class FeedPage implements OnInit {
 
 
 
-  addLike(posst) {
-    console.log(posst, "to add like");
-    const LikedBy = this.currentUserID;
-    const likerName = this.userData.Df.sn.proto.mapValue.fields.Name.stringValue;
-    this.firestore
-      .collection("postimages")
-      .doc(posst.docID)
-      .update({
-        likes: firebase.firestore.FieldValue.arrayUnion({
-          LikedBy,
-          likerName,
-        }),
-      })
-      .then(() => {
-        this.firestore
-          .collection("users")
-          .doc(posst.uploadedBy)
-          .valueChanges()
-          .subscribe((UploaderData) => {
-            this.uploaderData = UploaderData;
-            console.log("uploaderrr", this.uploaderData.deviceID);
-            this.playerID = this.uploaderData.deviceID;
-            const message = this.userData.Df.sn.proto.mapValue.fields.Name.stringValue + ' Liked your photo'
-            const playerID = this.playerID
-            this.sendNotification(message, playerID)
-          });
-
-      })
+  addLike(posst: any) {
+    console.log("GOT HERE");
+    const uid = this.firebaseauth.auth.currentUser.uid;
+    this.firestore.collection('postimages').doc(posst.docID).update({
+      likedBy: firebase.firestore.FieldValue.arrayUnion(uid)
+    }).then(() => {
+      this.firestore
+        .collection("users")
+        .doc(posst.uploadedBy)
+        .valueChanges()
+        .subscribe((UploaderData) => {
+          this.uploaderData = UploaderData;
+          console.log("uploaderrr", this.uploaderData.deviceID);
+          this.playerID = this.uploaderData.deviceID;
+          const message = this.userData.Df.sn.proto.mapValue.fields.Name.stringValue + ' Liked your photo'
+          const playerID = this.playerID
+          this.sendNotification(message, playerID)
+        });
+    })
       .then(() => {
         const docID = firebase.firestore().collection("notifications").doc().id;
         const message = this.userData.Df.sn.proto.mapValue.fields.Name.stringValue + " Liked your photo";
@@ -253,20 +262,13 @@ export class FeedPage implements OnInit {
         });
       })
       .then(() => {
-        this.checkIndiviualPostLike(posst)
         this.msg = "Image Liked";
         this.presentToast();
       });
   }
 
-  checkIndiviualPostLike(post) {
-    if (post.likes) {
-      for (var i = 0; i < post.likes.length; i++) {
-        if (post.likes[i].LikedBy == this.currentUserID) {
-          post.Liked = true
-        }
-      }
-    }
+  checkDownloaded(message: Object) {
+    return message["values"].find(x => x.stringValue === this.firebaseauth.auth.currentUser.uid);
   }
 
   upim: string;

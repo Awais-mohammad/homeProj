@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="none" style="background:rgb(253, 253, 253)" mode="ios">
+    <ion-title style="color:rgb(14, 13, 13);font-family:general;">Comments</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color = "light">
+  <div *ngIf="post">
+    <div id="container" *ngIf="!post.comments">
+      <strong style="color:rgb(202, 200, 200)">! No Comments !<a target="_blank" rel="noopener noreferrer"
+          href="https://ionicframework.com/docs/components"></a></strong>
+      <p style="color:rgb(42, 182, 14)">
+        Be the first one to comment
+      </p>
+    </div>
+    <div *ngIf="post.comments" style = "padding-top:10px;">
+      <ion-item *ngFor="let comment of post.comments" color="none" lines="none" style = "padding-bottom:10px;">
+        <div slot="start" style="width: 50px; text-align: center;">
+          <div>
+            <ion-avatar slot="start">
+              <ion-icon name="person" size="large" color = "dark"></ion-icon>
+            </ion-avatar>
+          </div>
+          <div>
+            <ion-label style="font-size:0.5em; color:rgb(78, 77, 77);" >{{comment.name}}</ion-label>
+          </div>
+        </div>
+        <ion-card slot = "start" color="none" style="padding:15px;
+        background:rgba(255, 255, 255, 0.842);
+        border-radius: 20px;">
+          <div style="font-family: bangers; font-size:1.3em; color:rgb(0, 0, 0);">
+            {{comment.msg}}
+          </div>
+        </ion-card>
+      </ion-item>
+    </div>
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="dark" (click)="dismiss()">
+      <ion-icon name="chevron-down" color="primary" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="none" style="background:black;">
+    <div class="input" slot="start">
+      <ion-input placeholder="Got something to say?" [(ngModel)]="msg"></ion-input>
+    </div>
+    <ion-icon name="send" color="light" size="large" slot="end" (click)="addComment()"></ion-icon>
+  </ion-toolbar>
+</ion-footer>

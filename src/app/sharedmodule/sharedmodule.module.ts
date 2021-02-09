@@ -6,16 +6,17 @@ import { IonicModule } from '@ionic/angular';
 import { UserProfilePage } from './../user-profile/user-profile.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CommentsPage } from '../comments/comments.page';
 
 
 
 @NgModule({
-  declarations: [UserProfilePage, OpenPolyPage, ImageViewerPage,DisplayShopPage],
+  declarations: [UserProfilePage, OpenPolyPage, ImageViewerPage,DisplayShopPage,CommentsPage],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule,
   ],
-  exports: [UserProfilePage, OpenPolyPage, ImageViewerPage,DisplayShopPage]
+  exports: [UserProfilePage, OpenPolyPage, ImageViewerPage,DisplayShopPage,CommentsPage]
 })
 export class SharedmoduleModule { }

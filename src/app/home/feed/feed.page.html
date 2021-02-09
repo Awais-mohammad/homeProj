@@ -36,17 +36,20 @@
           <ion-row style="text-align:center;margin:0px;">
             <ion-col>
               <div>
-                <ion-icon name="heart-outline" style = "height:23px;width:23px;"></ion-icon>
+                <ion-icon *ngIf="!item.liked" name="heart-outline" style="height:23px;width:23px;"
+                  (click)="addLike(item)"></ion-icon>
+                <ion-icon *ngIf="item.liked" name="heart" color="danger" style="height:23px;width:23px;"></ion-icon>
+                <span style="color:white" *ngIf="item.likedBy" style = "color:rgba(0, 0, 0, 0.774);">{{item.likedBy.length}}</span>
               </div>
             </ion-col>
             <ion-col>
               <div>
-                <ion-icon name="chatbubble-outline" style = "height:23px;width:23px;"></ion-icon>
+                <ion-icon name="chatbubble-outline" style="height:23px;width:23px;" (click) = "comments(item.docID)"></ion-icon>
               </div>
             </ion-col>
             <ion-col>
               <div>
-                <ion-icon name="share-social-outline" style = "height:23px;width:23px;"></ion-icon>
+                <ion-icon name="share-social-outline" style="height:23px;width:23px;"></ion-icon>
               </div>
             </ion-col>
           </ion-row>
