@@ -137,10 +137,10 @@ export class HomePage {
           fileName: this.docID + this.docID + ".jpg",
           headers: {},
         };
-        FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+        FileTransfer.upload(this.imageData, "https://134.122.2.23/upload.php", opt)
           .then((upload) => {
             console.log(upload);
-            this.clickedImage = "http://134.122.2.23/uploads/" + this.docID + this.docID + ".jpg";
+            this.clickedImage = "https://134.122.2.23/uploads/" + this.docID + this.docID + ".jpg";
             this.uploadTofirestore();
           })
           .catch((err) => {
