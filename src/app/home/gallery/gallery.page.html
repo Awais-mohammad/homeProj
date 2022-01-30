@@ -1,25 +1,28 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar  style="--background: #2C7744;  /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to right, #2C7744, #2C7744);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: linear-gradient(to right, #2C7744, #0b44037c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  ">
 
     <div class="iconSize" style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;
           font-size: 24px;">
-      <ion-icon name="images-outline" slot ="start"></ion-icon>
-      <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">Collections</ion-label>
+      <ion-icon name="images-outline" slot="start"></ion-icon>
+      <ion-label style="font-weight:bold;color: white;" slot="start">Collections</ion-label>
       <ion-icon name="funnel-outline"></ion-icon>
     </div>
 
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="--background: linear-gradient(to right, #12811010 0%, #189c160c 100%);">
 
   <div *ngIf="imagesData">
     <div *ngFor="let item of imagesData">
-      <ion-item>
+      <ion-item color="none">
         <ion-label class="greenColor">{{item.uploadedat}}</ion-label>
       </ion-item>
       <div class="caard-container">
-        <div *ngFor="let it of item.images" class="caard">
+        <div style="width: 50%;" *ngFor="let it of item.images" class="caard">
           <img (click)="openFullpageimage(it.imageURL)" class="imeg" src="{{it.imageURL}}" alt="">
         </div>
       </div>

@@ -1,8 +1,13 @@
-<ion-tabs>
-
+<ion-tabs #tabs (ionTabsDidChange)="tabChange(tabs)">
   <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="landing" layout="icon-top">
+      <ion-icon style="font-size: 2.2em;" name="leaf"></ion-icon>
+
+    </ion-tab-button>
+
     <ion-tab-button tab="feed" layout="icon-top">
-      <ion-icon style="font-size: 2.2em;" name="apps"></ion-icon>
+      <ion-icon style="font-size: 2.2em;" name="home"></ion-icon>
 
     </ion-tab-button>
 
@@ -11,21 +16,29 @@
       <ion-icon style="font-size: 2.2em;" name="location"></ion-icon>
     </ion-tab-button>
 
+
+
+    <ion-tab-button (click)="opendisplayshoppage()" *ngIf="shopData" layout="icon-top">
+      <ion-icon style="font-size: 2.2em;" name="card"></ion-icon>
+    </ion-tab-button>
     <ion-tab-button tab="gallery" layout="icon-top">
       <ion-icon style="font-size: 2.2em;" name="image"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button (click)="capture()" layout="icon-top">
-      <ion-icon style="font-size: 2.2em;" name="camera"></ion-icon>
-    </ion-tab-button>
 
     <ion-tab-button tab="notifications" layout="icon-top">
       <ion-icon style="font-size: 2.2em;" name="notifications"></ion-icon>
-    </ion-tab-button>
 
-    <ion-tab-button tab="profile" layout="icon-top">
+    </ion-tab-button>
+    <span (click)="gotoNotifications()"
+      style="color: white;position: relative;z-index: 100;left: -1.7em;top: -2px;background: rgb(185, 10, 10);border-radius: 50%;padding-left: 3px;padding-right: 3px;"
+      *ngIf="notifications">
+      {{ notifications.length}}
+    </span>
+    <ion-tab-button tab="settings" layout="icon-top">
       <ion-icon style="font-size: 2.2em;" name="reorder-four"></ion-icon>
     </ion-tab-button>
+
 
 
   </ion-tab-bar>

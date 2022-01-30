@@ -80,8 +80,6 @@ export class AuthenticationPage implements OnInit {
   }
   //toggle between login and signup
   changeMainDiv() {
-    this.type = 'password';
-    this.showPass = false;
     this.currentPage = !this.currentPage;
     if (!this.currentPage) {
       console.log("current div is login page");
@@ -163,7 +161,7 @@ export class AuthenticationPage implements OnInit {
           this.oneSignal.getIds().then(identity => {
             console.log('plaerid', identity.userId);
             this.deviceID = identity.userId;
-            const ProfileImage = 'http://134.122.2.23/uploads/man.png'
+            const ProfileImage = 'https://img.icons8.com/carbon-copy/2x/user.png'
             const Name = this.name.toLocaleUpperCase();
             const Email = this.email;
             const Phone = this.phone;

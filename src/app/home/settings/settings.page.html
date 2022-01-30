@@ -1,0 +1,334 @@
+<ion-header *ngIf="currentDiv=='menu' && !showSearchBar">
+  <ion-toolbar style="--background: #2C7744;  /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to right, #2C7744, #2C7744);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: linear-gradient(to right, #2C7744, #0b44037c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  ">
+
+    <div class="iconSize"
+      style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;">
+      <ion-icon name="settings" slot="start"></ion-icon>
+      <ion-label style="font-weight:bold;color: white;" slot="start">Settings</ion-label>
+      <ion-icon (click)="showHideSearchBar('null')" name="search"></ion-icon>
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-header class="ion-no-border" *ngIf="showSearchBar">
+  <div style="height: 8px;"></div>
+  <ion-toolbar>
+    <ion-searchbar mode='ios' showCancelButton (ionCancel)="showHideSearchBar($event)" animated showCancelButton="true"
+      [(ngModel)]="searchedName" (ionChange)="searchUser('users')"></ion-searchbar>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content style="--background: linear-gradient(to right, #12811010 0%, #189c160c 100%);">
+
+  <div>
+    <div style="position: relative;top: 30px;" *ngIf="currentDiv=='menu' && !showSearchBar">
+
+      <div *ngIf="userData" style="text-align: center;">
+
+        <img (click)="openProfileModal(userData.userID)"
+          style="max-height: 6em;object-fit: contain;border-radius: 25px;" *ngIf="userData.ProfileImage"
+          src="{{userData.ProfileImage}}">
+        <ion-label class="label">
+          <h1 style="font-weight: bold;font-family: 'ubuntu-dark';color:rgb(50, 170, 50);">{{userData.Name}}</h1>
+          <p fill="clear" style="font-size: 0.8rem;" (click)="openProfileModal(userData.userID)">View profile</p>
+        </ion-label>
+        <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.575)"></div>
+      </div>
+      <div>
+
+        <ion-item color="none" *ngIf="!shopdata" (click)="changecurrentDisplay('dispshop')">
+          <ion-avatar slot="start">
+            <img style="object-fit: cover;" src="../../../assets/shop.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Create your Display Shop</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item color="none" *ngIf="shopdata" (click)="opendisplayshoppage(shopdata[0].docID)">
+          <ion-avatar slot="start">
+            <img style="object-fit: cover;" src="{{shopdata[0].ProfileImage}}">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>{{shopdata[0].Name}}</h3>
+          </ion-label>
+        </ion-item>
+
+
+
+        <ion-item color="none" (click)="bug()">
+          <ion-avatar slot="start">
+            <img src="../../../assets/error.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Report a bug</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item color="none" (click)="updatePassword()">
+          <ion-avatar slot="start">
+            <img src="../../../assets/uppass.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Update Password</h3>
+          </ion-label>
+        </ion-item>
+
+
+        <ion-item color="none" (click)="changecurrentDisplay('editProfile')">
+          <ion-avatar slot="start">
+            <img src="../../../assets/editprof.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Edit Profile</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item color="none" (click)="gotoActivities()">
+          <ion-avatar slot="start">
+            <img src="../../../assets/mental-health.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Recent Activities</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item color="none" (click)="deleteAccount()">
+          <ion-avatar slot="start">
+            <img src="../../../assets/unfollow.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Delete Account</h3>
+          </ion-label>
+        </ion-item>
+
+        <ion-item color="none" (click)="logout()">
+          <ion-avatar slot="start">
+            <img src="https://img.icons8.com/pastel-glyph/2x/fa314a/logout-rounded-up.png">
+          </ion-avatar>
+          <ion-label class="label">
+            <h3>Logout</h3>
+          </ion-label>
+        </ion-item>
+
+
+
+
+
+
+      </div>
+    </div>
+
+
+    <div *ngIf="currentDiv=='editProfile' && !showSearchBar">
+      <div>
+
+        <div style="padding:1em">
+          <img style="height: 5em;" src="../../../assets/checklogo.png" alt="">
+        </div>
+        <div class="Headin">
+          <ion-label>HELLO USER</ion-label>
+        </div>
+
+        <div class="Headin2">
+          <ion-label>
+            You can now update your provided information
+          </ion-label>
+        </div>
+
+        <div class="InputFields">
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size-xs="10" size-sm="11" size-md="10" size-lg="8" size-xl="8">
+
+
+                <ion-item style="   --border-color: transparent !important;
+                  --highlight-height: 0;
+                  border: 1px solid black;
+                  border-radius: 4px;" color="none">
+                  <ion-input type="text" [(ngModel)]="name" placeholder="Enter your Name"></ion-input>
+                </ion-item>
+
+
+
+                <ion-item style="   --border-color: transparent !important;
+                  --highlight-height: 0;
+                  border: 1px solid black;
+                  border-radius: 4px;margin-top: 10px;" color="none">
+                  <ion-input type="number" [(ngModel)]="phone" placeholder="Enter your Phone"></ion-input>
+                </ion-item>
+
+                <ion-item style="   --border-color: transparent !important;
+                  --highlight-height: 0;
+                  border: 1px solid black;
+                  border-radius: 4px;margin-top: 10px;" color="none">
+                  <ion-input type="text" [(ngModel)]="adress" placeholder="Enter your bio"></ion-input>
+                </ion-item>
+
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </div>
+
+        <div class="signUpbtn">
+
+          <ion-button mode="ios" expand="block" color="dark" (click)="updateprof()"> UPDATE</ion-button>
+          <ion-button mode="ios" expand="block" color="danger" fill="clear" (click)="changecurrentDisplay('menu')">
+            Cancel
+          </ion-button>
+        </div>
+        <div style="position: relative;top: -1em;">
+        </div>
+
+
+      </div>
+    </div>
+
+    <div *ngIf="currentDiv=='displayShop' && !showSearchBar">
+
+      <div *ngIf="currentDiv=='displayShop'">
+
+      </div>
+      <div *ngIf="creationStatus=='initial' && currentDiv=='displayShop'" style="position: relative;top: 1em;"
+        class="m-scene" id="main">
+        <div class="m-header scene_element scene_element--fadeInLeft">
+          <ion-grid>
+            <ion-row>
+              <ion-col offset="0.2" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
+                <div style="text-align: center;">
+
+                  <img style="height: 11em;object-fit: contain;" src="../../../assets/tpround.png" alt="">
+
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid>
+            <ion-row>
+
+              <ion-col style="align-content: center;align-items:center;position: absolute;top: 14em;" size-xs="10"
+                size-sm="10" size-md="7" size-lg="8" size-xl="8" offset="1" offset-lg="2" offset-md="2">
+
+                <ion-label style="font-family: ubuntu-dark;font-size: 2em;color: skyblue;font-weight: bolder;">NAME YOUR
+                  SHOP</ion-label>
+                <br>
+                <div style="padding-top: 0.5em; padding-bottom: 0.5em;">
+
+                  <ion-list class="line-input">
+                    <ion-item>
+
+                      <ion-input [(ngModel)]="shopName" placeholder="Enter name for shop"></ion-input>
+                    </ion-item>
+                  </ion-list>
+
+                </div>
+                <ion-button (click)="displaySHopCreation('second')" class="butnn" color="dark" expand="block">
+                  <ion-icon slot="end" color="light" name="arrow-forward-outline"></ion-icon>
+                  NEXT
+                </ion-button>
+
+                <ion-button (click)="changecurrentDisplay('menu')" fill='clear' class="butnn" color="danger"
+                  expand="block">
+                  CANCEL
+                </ion-button>
+
+
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="creationStatus=='second'" style="position: relative;top: 1em;" class="m-scene" id="main">
+        <div class="m-header scene_element scene_element--fadeInLeft">
+          <ion-grid>
+            <ion-row>
+              <ion-col offset="0.2" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
+                <div style="text-align: center;">
+
+                  <img style="height: 11em;object-fit: contain;" src="../../../assets/tpround.png" alt="">
+
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid>
+            <ion-row>
+
+              <ion-col style="align-content: center;align-items:center;position: absolute;top: 14em;" size-xs="10"
+                size-sm="10" size-md="7" size-lg="8" size-xl="8" offset="1" offset-lg="2" offset-md="2">
+
+                <ion-label style="font-family: ubuntu-dark;font-size: 2em;color: skyblue;font-weight: bolder;">ADD A
+                  SHORT
+                  DESCRIPTION</ion-label>
+                <br>
+                <div style="padding-top: 0.5em; padding-bottom: 0.5em;">
+
+                  <ion-list class="line-input">
+                    <ion-item color="none">
+
+                      <ion-input [(ngModel)]="shopDescription" placeholder="Add short description"></ion-input>
+                    </ion-item>
+                  </ion-list>
+
+                </div>
+                <ion-button (click)="displaySHopCreation('third')" class="butnn" color="dark" expand="block">
+                  <ion-icon slot="end" color="light" name="arrow-forward-outline"></ion-icon>
+                  NEXT
+                </ion-button>
+
+                <ion-button (click)="displaySHopCreation('initial')" fill='clear' class="butnn" color="danger"
+                  expand="block">
+                  BACK
+                </ion-button>
+
+
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <div *ngIf="showSearchBar">
+
+      <div *ngIf="searchResults">
+
+        <ion-list *ngFor="let item of searchResults">
+          <ion-item (click)="openProfileModal(item.userID)">
+            <ion-avatar slot="start">
+              <img *ngIf="!item.ProfileImage" src="./../../../assets/man.png">
+              <img *ngIf="item.ProfileImage" src="{{item.ProfileImage}}">
+            </ion-avatar>
+            <ion-label class="label">
+              <h3>{{item.Name}}</h3>
+              <p style="font-size: 0.8rem;">Tap to open profile</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

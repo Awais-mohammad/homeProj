@@ -8,6 +8,17 @@ const routes: Routes = [
     path: '',
     component: HomePage,
     children: [
+
+      {
+        path: 'landing',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../home/landing/landing.module').then(m => m.LandingPageModule)
+          }
+        ]
+      },
+
       {
         path: 'menu',
         children: [
@@ -28,15 +39,9 @@ const routes: Routes = [
           }
         ]
       },
-      {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../home/profile/profile.module').then(m => m.ProfilePageModule)
-          }
-        ]
-      },
+  
+
+
       {
         path: 'gallery',
         children: [
@@ -54,17 +59,24 @@ const routes: Routes = [
             loadChildren: () => import('../home/feed/feed.module').then(m => m.FeedPageModule)
           }
         ]
-      }
+      },
+
+      {
+        path: 'settings',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../home/settings/settings.module').then( m => m.SettingsPageModule)
+          }
+        ]
+        
+      },
     ]
   },
   {
     path: '',
-    redirectTo: '/home/feed',
+    redirectTo: 'app/home/landing',
     pathMatch: 'full'
-  },
-  {
-    path: 'feed',
-    loadChildren: () => import('./feed/feed.module').then(m => m.FeedPageModule)
   },
 
 

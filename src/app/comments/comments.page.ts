@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular';
 import { Component, OnInit, Input } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -7,7 +8,7 @@ import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import * as firebase from 'firebase';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-
+Platform
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.page.html',
@@ -22,6 +23,7 @@ export class CommentsPage implements OnInit {
     public toastController: ToastController,
     public loadingController: LoadingController,
     private http: HttpClient,
+    private platform: Platform,
   ) { }
 
   @Input() ID: string;
@@ -34,6 +36,10 @@ export class CommentsPage implements OnInit {
   msg: string;
   color: string;
   msg2: string;
+
+  backSub = this.platform.backButton.subscribeWithPriority(1000, () => {
+    this.dismiss()
+  })
 
   async presentToast() {
     const toast = await this.toastController.create({
@@ -99,23 +105,26 @@ export class CommentsPage implements OnInit {
     })
     const userSub = this.fireStore.collection('users').doc(this.afAuth.auth.currentUser.uid).valueChanges().subscribe((res: any) => {
       this.name = res.Name;
+      this.image = res.ProfileImage
       userSub.unsubscribe();
     })
   }
 
-  uploaderData:any;
-  playerID:any;
+  uploaderData: any;
+  image: string;
+  playerID: any;
   addComment() {
     if (this.msg != undefined && this.msg.length > 1) {
       const msg = this.msg;
       const time = new Date();
       const name = this.name;
+      const image = this.image
       this.fireStore.collection("postimages").doc(this.ID).update({
         comments: firebase.firestore.FieldValue.arrayUnion({
-          msg, time, name
+          msg, time, name, image
         })
       }).then(() => {
-        this.msg="";
+        this.msg = "";
         this.fireStore
           .collection("users")
           .doc(this.post.uploadedBy)
@@ -163,7 +172,7 @@ export class CommentsPage implements OnInit {
 
     return this.http
       .post(
-        "http://134.122.2.23/useruserpush.php",
+        "https://exportportal.site/userpush.php",
         {
           message: content,
           playerID: playerID,

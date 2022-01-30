@@ -1,0 +1,14 @@
+keytool -genkey -v -keystore terraplanteraKey.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
+
+/////////////////////////////////////////
+****Important****
+keystore password:terraplantera1
+////////////////////////////////////
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore terraplanteraKey.jks  unsignedTP.apk my-alias
+****Important****
+paraphrase for keystore:terraplantera1
+
+////////////////////
+zipalign -v 4 unsignedTP.apk  Terraplantera.apk
+//////////////////////////
+apksigner verify Terraplantera.apk

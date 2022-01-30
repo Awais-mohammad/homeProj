@@ -1,11 +1,11 @@
 import { ModalController, ToastController } from "@ionic/angular";
 import { Component, OnInit, Input } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import * as firebase from "firebase/app"
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Camera, CameraOptions } from '@ionic-native/Camera/ngx';
-import { Platform, AlertController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer/ngx";
 import { ImageViewerPage } from "../image-viewer/image-viewer.page";
@@ -31,6 +31,7 @@ export class UserProfilePage implements OnInit {
     private http: HttpClient,
     public File: FileTransfer,
     public actionSheet: ActionSheetController,
+    public alertCtrl: AlertController,
 
   ) {
 
@@ -343,6 +344,46 @@ export class UserProfilePage implements OnInit {
     }
   }
   clickedImage: string;
+  imageCap: string;
+
+  async addCaption(typ) {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Add Caption To Image',
+      mode: 'ios',
+      backdropDismiss: false,
+      inputs: [
+        {
+          name: 'caption',
+          type: 'text',
+          placeholder: 'Hooray!! Its my first plantation'
+        },
+
+      ],
+      buttons: [
+        {
+          text: 'ADD',
+          handler: (alertData) => {
+            console.log("alertData.newpassword", alertData.caption);
+            if (!alertData.caption) {
+              this.msg = 'Caption is a must!!'
+              this.presentToast()
+              this.addCaption(typ)
+
+            }
+            else {
+              this.imageCap = alertData.caption
+              console.log('caption is', this.imageCap);
+              this.uploadtoServer(typ)
+            }
+
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 
   openGallery(type) {
@@ -355,7 +396,8 @@ export class UserProfilePage implements OnInit {
       this.imageData = imageData;
       this.msg = "Fetching Image this may take few seconds"
       this.presentToast();
-      this.uploadtoServer(type)
+      this.addCaption(type)
+
     }, (err) => {
       this.msg = "Unable to Open gallery please use camera "
       this.presentToast();
@@ -378,11 +420,12 @@ export class UserProfilePage implements OnInit {
       .then((img) => {
         this.imageData = img;
 
-        this.uploadtoServer(type)
+        this.addCaption(type)
         console.log(type, 'type');
 
       });
   }
+
   uploadtoServer(typ) {
     if (typ == 'profile') {
 
@@ -396,10 +439,10 @@ export class UserProfilePage implements OnInit {
         fileName: this.UserID + ".jpg",
         headers: {},
       };
-      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+      FileTransfer.upload(this.imageData, "https://exportportal.site/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + this.UserID + '.jpg?random+\=' + Math.random();
+          this.clickedImage = "https://exportportal.site/uploads/" + this.UserID + '.jpg?random+\=' + Math.random();
           const ProfileImage = this.clickedImage
           this.firestore.collection('users').doc(this.UserID).update({
             ProfileImage,
@@ -428,10 +471,10 @@ export class UserProfilePage implements OnInit {
         fileName: this.docID + this.docID + ".jpg",
         headers: {},
       };
-      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+      FileTransfer.upload(this.imageData, "https://exportportal.site/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + this.docID + this.docID + '.jpg';
+          this.clickedImage = "https://exportportal.site/uploads/" + this.docID + this.docID + '.jpg';
           this.uploadTofirestore()
         })
     }
@@ -446,10 +489,10 @@ export class UserProfilePage implements OnInit {
         fileName: this.docID + ".jpg",
         headers: {},
       };
-      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+      FileTransfer.upload(this.imageData, "https://exportportal.site/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + this.docID + '.jpg';
+          this.clickedImage = "https://exportportal.site/uploads/" + this.docID + '.jpg';
 
         }).then(() => {
           const imageURL = this.clickedImage;
@@ -457,13 +500,14 @@ export class UserProfilePage implements OnInit {
           const longitude = this.userData.Longitude
           const timestamp = Date.now()
           const uploaderImage = this.userData.ProfileImage
-
+          const imageCaption = this.imageCap
           this.firestore.collection('users').doc(this.UserID).collection('privateimages').doc(this.docID).set({
             imageURL,
             latitude,
             longitude,
             timestamp,
             uploaderImage,
+            imageCaption,
           })
         }).then(() => {
           const imageURL = this.clickedImage;
@@ -493,7 +537,7 @@ export class UserProfilePage implements OnInit {
 
   uploadTofirestore() {
 
-
+    const imageCaption = this.imageCap
     const docOwner = this.UserID
     const uploadedat = this.today;
     const imageURL = this.clickedImage;
@@ -516,6 +560,7 @@ export class UserProfilePage implements OnInit {
             docID,
             images: firebase.firestore.FieldValue.arrayUnion({
               imageURL,
+              imageCaption,
               latitude,
               longitude,
               uploaderImage,
@@ -530,6 +575,7 @@ export class UserProfilePage implements OnInit {
               longitude,
               uploaderImage,
               timestamp,
+              imageCaption,
               imageDocID,
               uploadedBy,
 
@@ -564,6 +610,7 @@ export class UserProfilePage implements OnInit {
               imageURL,
               latitude,
               longitude,
+              imageCaption,
               uploaderImage,
               timestamp,
               imageDocID,
@@ -573,6 +620,7 @@ export class UserProfilePage implements OnInit {
             this.firestore.collection('images').doc(this.tempdocID).collection('imageData').doc(imageDocID).set({
               imageURL,
               latitude,
+              imageCaption,
               longitude,
               uploaderImage,
               timestamp,
@@ -621,6 +669,20 @@ export class UserProfilePage implements OnInit {
       })
     })
 
+    this.uploadtoPost()
+  }
+
+  uploadtoPost() {
+    const docOwner = this.UserID
+    const uploadedat = this.today;
+    const imageURL = this.clickedImage;
+    const latitude = this.userData.Lattitude;
+    const longitude = this.userData.Longitude;
+    const uploaderImage = this.userData.ProfileImage;
+    const timestamp = Date.now()
+    const uploadedBy = docOwner
+    const uploaderName = this.userData.Name
+    const imageCaption = this.imageCap
     const docID = firebase.firestore().collection('postimages').doc().id;
     this.firestore.collection('postimages').doc(docID).set({
       imageURL,
@@ -628,11 +690,17 @@ export class UserProfilePage implements OnInit {
       longitude,
       uploaderImage,
       timestamp,
+      uploadedat,
       uploadedBy,
       docID,
+      imageCaption,
       uploaderName,
+    }).then(() => {
+
+      this.clickedImage = ''
     })
   }
+
   privateImages: any;
   getprivateImages() {
     this.firestore.collection('users').doc(this.UserID).collection('privateimages').valueChanges().subscribe(res => {
@@ -681,6 +749,6 @@ export class UserProfilePage implements OnInit {
     this.presentLoading()
     setTimeout(() => {
       this.loading.dismiss('loll')
-    }, 3000);
+    }, 1000);
   }
-} 
+}

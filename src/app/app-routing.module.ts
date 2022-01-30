@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'splash',
     pathMatch: 'full'
   },
   {
@@ -17,25 +17,31 @@ const routes: Routes = [
   },
   {
     path: 'user-profile',
-    loadChildren: () => import('./user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+    loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfilePageModule)
   },
   {
     path: 'open-poly',
-    loadChildren: () => import('./open-poly/open-poly.module').then( m => m.OpenPolyPageModule)
+    loadChildren: () => import('./open-poly/open-poly.module').then(m => m.OpenPolyPageModule)
   },
   {
     path: 'image-viewer',
-    loadChildren: () => import('./image-viewer/image-viewer.module').then( m => m.ImageViewerPageModule)
+    loadChildren: () => import('./image-viewer/image-viewer.module').then(m => m.ImageViewerPageModule)
   },
   {
     path: 'display-shop',
-    loadChildren: () => import('./display-shop/display-shop.module').then( m => m.DisplayShopPageModule)
-  },  {
+    loadChildren: () => import('./display-shop/display-shop.module').then(m => m.DisplayShopPageModule)
+  },
+  {
     path: 'comments',
-    loadChildren: () => import('./comments/comments.module').then( m => m.CommentsPageModule)
+    loadChildren: () => import('./comments/comments.module').then(m => m.CommentsPageModule)
+  },
+  {
+    path: 'splash',
+    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
   },
 
- 
+
+
 
 ];
 

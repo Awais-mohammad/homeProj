@@ -297,7 +297,7 @@ export class MenuPage implements OnInit {
 
     this.firestore.collection('postimages', q => q.where('uploadedBy', '==', this.currentUID)).valueChanges().subscribe(data => {
       if (data.length < 1) {
-        console.log('no images by user');
+    
 
       }
       else {
@@ -314,7 +314,7 @@ export class MenuPage implements OnInit {
                 map: map,
                 animation: google.maps.Animation.DROP,
                 zIndex: 1,
-                icon: 'https://img.icons8.com/doodle/2x/plant-under-sun.png'
+                icon: 'https://exportportal.site/green%20plant%20white.png'
               });
 
             }
@@ -345,7 +345,7 @@ export class MenuPage implements OnInit {
                 map: map,
                 animation: google.maps.Animation.DROP,
                 zIndex: 12,
-                icon: 'https://img.icons8.com/doodle/2x/flower-vase.png'
+                icon: 'https://exportportal.site/terraplanterashops.png'
               });
               const a = this.vendors[i].docID;
               venmarkers.addListener("click", () => {

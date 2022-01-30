@@ -1,0 +1,168 @@
+<ion-header>
+  <ion-toolbar style="--background: #2C7744;  /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to right, #2C7744, #2C7744);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: linear-gradient(to right, #2C7744, #0b44037c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  ">
+    <div style="display: flex;justify-content: space-between;padding-left: 10px;padding: 5px;">
+      <div style="display: flex;padding-top: 2px;">
+        <img style="object-fit: contain;height: 3em;background: white;border-radius: 46%;"
+          src="../../../assets/checklogo.png" alt="">
+
+      </div>
+      <ion-searchbar color="light" style="width: 100%;position: relative;top: 0.4em;" mode='ios'></ion-searchbar>
+      <ion-icon color="light" style="font-size: 26px;position: relative;top: 0.4em;" (click)="presentActionSheet()"
+        name="ellipsis-vertical-outline"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content style="--background: linear-gradient(to right, #12811010 0%, #189c160c 100%);">
+
+
+
+  <div>
+
+    <div *ngIf="!one"
+      style="position: absolute;top: 14%;display: flex;justify-content: center;align-items: center;flex-direction: column;text-align: center;">
+
+      <ion-card style="background-color: white;min-height: 10em;width: 90%;padding: 25px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;border-radius: 25px;">
+
+        <div style="display: flex;">
+
+          <img src="../../../assets/images/new.png" alt="">
+        </div>
+
+        <div style="margin-top: 2em;">
+
+          <ion-button mode='ios' (click)="toogle()" expand='block'>
+            <p style="font-family: 'Noto Sans KR', sans-serif;">
+              PLANT & SNAP
+            </p>
+            <ion-icon style="position: relative;left: 3px;" name="camera"></ion-icon>
+          </ion-button>
+
+        </div>
+
+      </ion-card>
+
+      <div class="flexrow">
+        <ion-card style="height: 6em;width: 90%;padding: 20px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;border-radius: 25px;background-color: rgba(255, 255, 255, 0.589);">
+
+          <div class="flexrow">
+
+            <div class="flexcol" style="width: 90%;position: relative;top: 8px;">
+              <ion-label style="color: rgba(0, 128, 0, 0.418);font-size: 16px;font-weight:bold; font-family: 'Padauk', sans-serif;">
+                1$ =1 Tree</ion-label>
+
+              <ion-label
+                style="color: rgba(107, 107, 13, 0.527);margin-top: 2px;font-size: 8px;font-family: 'Noto Sans KR', sans-serif;text-align: center;">
+                COMING SOON
+              </ion-label>
+            </div>
+
+            <div style="margin-left: 5px;" class="flexcol">
+              <img style="height: 10em;object-fit: contain;position: relative;top: -2.5em;" src="../../../assets/images/1dtree.png" alt="">
+
+            </div>
+
+          </div>
+
+        </ion-card>
+
+        <ion-card style="height: 6em;width: 90%;padding: 20px;  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;border-radius: 25px;background-color: rgba(255, 255, 255, 0.589);">
+
+          <div class="flexrow">
+
+            <div class="flexcol" style="width: 90%;position: relative;top: 8px;">
+              <ion-label style="color: rgba(0, 128, 0, 0.418);font-size: 16px;font-weight:bold;font-family: 'Padauk', sans-serif;">
+                EVENTS</ion-label>
+
+              <ion-label
+                style="color: rgba(107, 107, 13, 0.527);margin-top: 2px;font-size: 8px;font-family: 'Noto Sans KR', sans-serif;text-align: center;">
+                COMING SOON
+              </ion-label>
+            </div>
+
+            <div style="margin-left: 5px;" class="flexcol">
+              <img style="height: 4em;object-fit: contain;" src="../../../assets/calendar.png" alt="">
+
+            </div>
+
+          </div>
+
+        </ion-card>
+      </div>
+
+      <ion-card (click)="openGallery()" style="width: 90%;padding: 20px; border-radius: 25px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);text-align: center;font-size: 20px;color: rgba(10, 134, 10, 0.918);
+        font-family: 'Padauk', sans-serif;">
+
+        <ion-icon style="position: relative;top: 4px;right: 4px;" name="share-social">
+        </ion-icon>
+        <ion-label>SHARE IMAGE FROM GALLERY</ion-label>
+
+      </ion-card>
+
+    </div>
+
+
+    <div *ngIf="one">
+
+
+
+      <div style="padding:10px;margin-top: 5em;">
+
+        <div style="display: flex;justify-content: center;align-items: center;">
+
+          <div (click)="capture()" *ngIf="!clickedImage"
+            style="height: 13em;width: 10em;border: 1px dotted green;border-radius: 25px;text-align: center;display: flex;flex-direction: column;">
+
+
+            <ion-icon style="position: relative;top: 2.6em;left: 2em;font-size: 32px;" color="success" name="camera">
+            </ion-icon>
+
+            <ion-label
+              style="position: relative;top: 7.2em;font-size: 12px;text-align: center;color: rgba(0, 128, 0, 0.637);">
+              Tap to upload image
+            </ion-label>
+
+          </div>
+
+          <div *ngIf="clickedImage">
+            <img style="height: 10em;width: 10em;object-fit: contain;" src="{{clickedImage}}" alt="">
+          </div>
+        </div>
+
+        <div style="height: 3em;">
+
+        </div>
+
+        <ion-button *ngIf="!clickedImage" disabled="true" mode='ios' expand='block' color="secondary">ADD TO PUBLIC
+        </ion-button>
+
+
+        <ion-button *ngIf="clickedImage" (click)="uploadTofirestore()" mode='ios' expand='block' color="secondary">ADD
+          TO PUBLIC</ion-button>
+
+
+        <h1 style="text-align: center;">
+          OR
+        </h1>
+
+        <ion-button *ngIf="!clickedImage" disabled="true" mode='ios' expand='block' color="medium">ADD TO PRIVATE
+        </ion-button>
+
+        <ion-button (click)="uploadPrivateImage()" *ngIf="clickedImage" mode='ios' expand='block' color="medium">ADD
+          TO
+          PRIVATE</ion-button>
+
+        <div style="height: 0.5em;"></div>
+        <ion-button (click)="toogle()" mode='ios' expand='block' fill='outline' color="danger">BACK</ion-button>
+      </div>
+    </div>
+
+  </div>

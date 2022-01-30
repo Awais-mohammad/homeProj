@@ -1,10 +1,12 @@
-<ion-header *ngIf="!fullpageImage">
+<ion-header style="background: white;" *ngIf="!fullpageImage">
   <ion-toolbar>
-    <div *ngIf="currentDiv=='profile' && userData && !fullpageImage" style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;font-size:19px;">
-        <ion-icon name="close-outline" slot="start" (click) = "closePage()"></ion-icon>
-        <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">User Profile</ion-label>
-        <ion-icon *ngIf="currentuserID != UserID && !foollow" name="add-outline" (click)="follow()"></ion-icon>
-        <ion-icon *ngIf="currentuserID == UserID"></ion-icon>
+    <div *ngIf="currentDiv=='profile' && userData && !fullpageImage"
+      style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;font-size:19px;">
+      <ion-icon color="danger" name="close-circle" slot="start" (click)="closePage()"></ion-icon>
+      <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">User Profile</ion-label>
+      <ion-icon *ngIf="currentuserID != UserID && !foollow" name="person-add" (click)="follow()"></ion-icon>
+      <ion-icon color="success" *ngIf="currentuserID != UserID && foollow" name="people"></ion-icon>
+      <ion-icon *ngIf="currentuserID == UserID"></ion-icon>
 
     </div>
 
@@ -19,136 +21,126 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="font-family: 'Poppins';font-size: 5px;">
-  <div *ngIf="currentDiv=='profile'">
+<ion-content style="font-family: 'Poppins';">
 
-    <div style="margin-top: 0;padding-top: 0;" class="container">
+  <div *ngIf="currentDiv=='profile' && userData" style="background: white;min-height: 100%;">
+    <div style="height:18em;background: green;width: 100%;position: relative;z-index: 1;top: -1em;">
+      <ion-card style="background: white;position: relative;top: 6em;min-height: 14em;">
 
-      <div style="margin-top: 0;padding-top: 0;" *ngIf="userData" class="profile">
+        <div
+          style="position: relative;top: 2em;display: flex;justify-content: center;align-items: center;text-align: center;">
 
-        <div class="profile-image">
-          <img *ngIf="userData.ProfileImage" src="{{userData.ProfileImage}}" alt="">
-        </div>
+          <img (click)="openFullpageimage(userData.ProfileImage)"
+            style=" box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);border: 2px solid rgba(0, 128, 0, 0.849);border-radius: 50%;max-height: 8em;object-fit: contain;"
+            *ngIf="userData.ProfileImage" src="{{userData.ProfileImage}}" alt="">
 
-        <div style="margin: 0;padding: 0;" class="profile-user-settings">
-
-          <h1 class="profile-user-name">{{userData.Name}}</h1>
-
-          <ion-button (click)="follow()" *ngIf="currentuserID != UserID && !foollow"
-            style="position: relative;right: 1.5em;" expand='large' class="profile-edit-btn" fill='outline'
-            color="primary" mode='ios'>
-            <ion-icon name="person-add-outline"></ion-icon>
-            FOLLOW
-          </ion-button>
-
-          <ion-button (click)="follow()" *ngIf="currentuserID != UserID && foollow"
-            style="position: relative;right: 1.5em;" expand='large' class="profile-edit-btn" color="primary" mode='ios'>
-            <ion-icon name="person-add-outline"></ion-icon>
-            FOLLOWING
-          </ion-button>
-
-
-          <ion-button (click)="ChoosePhotoOption('profile')" *ngIf="currentuserID == UserID"
-            style="position: relative;right: 1.5em;" expand='large' class="profile-edit-btn" fill='outline'
-            color="primary" mode='ios'>
-            <ion-icon name="image-outline"></ion-icon>
-            EDIT PICTURE
-          </ion-button>
-
-        </div>
-
-        <div class="profile-stats">
-
-          <ul>
-            <li style="font-size: 16px;">
-              <ion-label *ngIf="temp1" style="font-size: 16px;" class="profile-stat-count">{{temp1}}</ion-label>
-              <ion-label *ngIf="!temp1" style="font-size: 16px;" class="profile-stat-count">0</ion-label>
-              posts
-            </li>
-            <li style="font-size: 16px;">
-              <ion-label *ngIf="temp2" style="font-size: 16px;" class="profile-stat-count">{{temp2}}</ion-label>
-              <ion-label *ngIf="!temp2" style="font-size: 16px;" class="profile-stat-count">0</ion-label>
-              followers
-            </li>
-            <li style="font-size: 16px;">
-              <ion-label *ngIf="temp3" style="font-size: 16px;" class="profile-stat-count">{{temp3}}</ion-label>
-              <ion-label *ngIf="!temp3" style="font-size: 16px;" class="profile-stat-count">0</ion-label>
-              following
-            </li>
-          </ul>
-
-        </div>
-
-        <div class="profile-bio">
-
-
-          <ion-label style="font-weight: bold;" class="profile-real-name">{{userData.Name}}</ion-label>
-          <br>
-          <div *ngIf="userData.Adress">
-            {{userData.Adress}}
+          <div *ngIf="UserID == currentuserID" style="background-color: white;padding: 5px;border-radius: 50%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            position: relative;position: relative;top: 2.3em;left: -1.4em;">
+            <ion-icon (click)="ChoosePhotoOption('profile')"
+              style="position: relative;font-size: 26px;position: relative;color: green;" name="camera"></ion-icon>
           </div>
+        </div>
 
-          <div *ngIf="!userData.Adress">
-            No profile bio added yet
-          </div>
+        <ion-title style="text-align: center;color: black;margin-top: 2em;">{{userData.Name}}</ion-title>
+        <div style="text-align: center;">
+          <ion-label style="color: green;margin-top: 2em;">{{userData.Adress}}</ion-label>
+
+
 
 
         </div>
+        <div style="display: flex;justify-content: center;align-items: center;text-align: center;">
+          <ion-card style="border: 1px solid green;border-radius: 25px;height: 4em;width: 7em;">
+            <ion-label *ngIf="temp1" style="font-size: 16px;color: black;position: relative;top: 5px;"
+              class="profile-stat-count">{{temp1}}
 
-      </div>
-      <!-- End of profile section -->
-      <div style="position: relative;top: -12em;">
+            </ion-label>
+            <ion-label *ngIf="!temp1" style="font-size: 16px;color: black;position: relative;top: 5px;"
+              class="profile-stat-count">0</ion-label>
+
+            <br>
+            Posts
+          </ion-card>
+
+          <ion-card style="border: 1px solid green;border-radius: 25px;height: 4em;width: 7em;">
+            <ion-label *ngIf="temp2" style="font-size: 16px;color: black;position: relative;top: 5px;"
+              class="profile-stat-count">{{temp2}}
+
+            </ion-label>
+            <ion-label *ngIf="!temp2" style="font-size: 16px;color: black;position: relative;top: 5px;"
+              class="profile-stat-count">0</ion-label>
+            <br>
+            followers
+
+          </ion-card>
+
+          <ion-card style="border: 1px solid green;border-radius: 25px;height: 4em;width: 7em;">
+            <ion-label *ngIf="temp3" style="font-size: 16px;color: black;position: relative;top: 5px;"
+              class="profile-stat-count">{{temp3}}
+            </ion-label>
+            <ion-label *ngIf="!temp3" style="font-size: 16px;color: black;position: relative;top: 5px;"
+              class="profile-stat-count">0</ion-label>
+            <br>
+            Followings
+          </ion-card>
+
+        </div>
+
+      </ion-card>
+
+    </div>
+
+
+    <div style="position: relative;top: 4em;">
+      <div style="padding: 5px;">
         <div style="display: flex;justify-content: space-between;">
-          <ion-label style="font-size: 5em;font-weight: bold;">PUBLIC IMAGES</ion-label>
-          <ion-button (click)="switchViews('gallery','public')" style="font-size: 3em;" fill='clear' color="danger">VIEW
+          <ion-label style="font-weight: bold;color: black;font-size: 26px;margin-left: 4px;">PUBLIC IMAGES</ion-label>
+          <ion-button style="color: rgba(128, 128, 128, 0.842);" (click)="switchViews('gallery','public')" fill='clear' color="none">VIEW
             ALL</ion-button>
         </div>
-        <div *ngIf="publicdisplayImages && publicdisplayImages.images" class="imgcontainer">
-          <div *ngFor="let item of publicdisplayImages.images" class="imgcard">
+
+
+        <div *ngIf="publicdisplayImages && publicdisplayImages.images" class="caard-container">
+          <div *ngFor="let item of publicdisplayImages.images" class="caard">
             <img class="imeg" src="{{item.imageURL}}">
-
           </div>
-
         </div>
+
 
         <div *ngIf="!publicdisplayImages" class="imgcontainer">
 
-          <ion-label style="font-size: 5em;color: gray;">NO IMAGES TO SHOW</ion-label>
+          <ion-label style="text-align: center;color: gray;">NO IMAGES TO SHOW</ion-label>
         </div>
-        <ion-button *ngIf="currentuserID == UserID" style="position: relative;top: -1em;" expand='block' color="warning"
-          (click)="capture('public')">
+        <ion-button *ngIf="currentuserID == UserID" expand='block' color="warning" (click)="capture('public')">
           UPLOAD</ion-button>
       </div>
 
-      <div *ngIf="this.currentuserID == UserID" style="position: relative;top: -12em;">
+      <div *ngIf="this.currentuserID == UserID" style="position: relative;padding: 5px;">
         <div style="display: flex;justify-content: space-between;">
-          <ion-label style="font-size: 5em;font-weight: bold;">PRIVATE IMAGES</ion-label>
-          <ion-button (click)="switchViews('gallery','private')" style="font-size: 3em;" fill='clear' color="danger">
+          <ion-label style="font-weight: bold;color: black;font-size: 26px;margin-left: 4px;">PRIVATE IMAGES</ion-label>
+          <ion-button style="color: rgba(128, 128, 128, 0.842);" (click)="switchViews('gallery','private')" fill='clear' color="none">
             VIEW ALL</ion-button>
         </div>
-        <div *ngIf="privateImages" class="imgcontainer">
+        <div *ngIf="privateImages" class="caard-container">
 
-          <div *ngFor="let item of privateImages" class="imgcard">
+          <div *ngFor="let item of privateImages" class="caard">
             <img class="imeg" src="{{item.imageURL}}">
-
-
           </div>
 
 
         </div>
         <div *ngIf="!privateImages" class="imgcontainer">
 
-          <ion-label style="font-size: 5em;color: gray;">NO IMAGES TO SHOW</ion-label>
+          <ion-label style="font-size: 1em;color: gray;text-align: center;">NO IMAGES TO SHOW</ion-label>
         </div>
 
-        <ion-button *ngIf="currentuserID == UserID" style="position: relative;top: -1em;" expand='block' color="warning"
+        <ion-button *ngIf="currentuserID == UserID" expand='block' color="warning"
           (click)="ChoosePhotoOption('private')">
           UPLOAD</ion-button>
       </div>
-      <!-- End of container -->
-
     </div>
   </div>
+
 
   <div *ngIf="currentDiv=='gallery' && galleryLabel=='PUBLIC'">
     <div *ngIf="imagesData">
@@ -156,11 +148,27 @@
         <ion-item>
           <ion-label class="greenColor">{{item.uploadedat}}</ion-label>
         </ion-item>
-        <div class="caard-container">
-          <div *ngFor="let it of item.images" class="caard">
+        <!-- <div style="display: flex;flex-wrap: wrap;">
+          <div *ngFor="let it of item.images" style="border-radius: 25px;height: 5em;object-fit: contain;">
             <img (click)="openFullpageimage(it.imageURL)" class="image" src="{{it.imageURL}}" alt="">
+          </div> 
+        </div>-->
+
+        <div style="  width: auto;
+        display: flex;
+        flex-wrap: wrap;
+        background-color: white;
+        padding: 0px;">
+          <div style="border-radius: 16px;
+          box-shadow: -1rem 0 3rem transparent;
+          display: flex;
+          flex-direction: column;
+          padding: 4px;
+          transition: 0.2s;width: 50%;" *ngFor="let it of item.images">
+            <img (click)="openFullpageimage(it.imageURL)" class="imeg" src="{{it.imageURL}}" alt="">
           </div>
         </div>
+
       </div>
     </div>
 
@@ -179,5 +187,7 @@
 
     </section>
   </div>
+
+
 
 </ion-content>

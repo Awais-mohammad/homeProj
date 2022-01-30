@@ -184,10 +184,10 @@ export class DisplayShopPage implements OnInit {
         fileName: this.collectionID + '.jpg ',
         headers: {},
       };
-      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+      FileTransfer.upload(this.imageData, "https://exportportal.site/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + this.collectionID + '.jpg%20';
+          this.clickedImage = "https://exportportal.site/uploads/" + this.collectionID + '.jpg%20';
           console.log(upload);
 
         }).then(() => {
@@ -210,10 +210,10 @@ export class DisplayShopPage implements OnInit {
         fileName: imageURL + '.jpg ',
         headers: {},
       };
-      FileTransfer.upload(this.imageData, "http://134.122.2.23/upload.php", opt)
+      FileTransfer.upload(this.imageData, "https://exportportal.site/upload.php", opt)
         .then((upload) => {
 
-          this.clickedImage = "http://134.122.2.23/uploads/" + imageURL + '.jpg%20';
+          this.clickedImage = "https://exportportal.site/uploads/" + imageURL + '.jpg%20';
           console.log(upload);
 
         }).then(() => {
@@ -276,34 +276,13 @@ export class DisplayShopPage implements OnInit {
 
     if (this.shopImages) {
 
-      if (this.shopImages.images.length <= 5) {
+      if (this.shopImages.images.length <= 1) {
         this.msg = 'minimum 6 images required!!'
         this.presentToast()
       }
       else {
-        const collectionName = this.collectionName;
-        const timestamp = Date.now()
-        const docID = this.collectionID
-        const ownerID = this.shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue
-        this.firestore.collection('shops').doc(this.PageID).collection('shopcollections').doc(docID).set({
-          collectionName,
-          timestamp,
-          ownerID,
-          docID,
-        }).then(() => {
-          this.clickedImage = ''
-          this.shopImages = ''
-          this.msg = 'collection added sucessfully!'
-          this.presentToast()
-          this.createcollection = !this.createcollection
-
-        }).catch(() => {
-          this.clickedImage = ''
-          this.shopImages = ''
-          this.msg = 'unable to add collection please retry'
-          this.presentToast()
-          this.createcollection = !this.createcollection
-        })
+        this.createcollection = !this.createcollection
+        this.showHidelist()
       }
 
     }

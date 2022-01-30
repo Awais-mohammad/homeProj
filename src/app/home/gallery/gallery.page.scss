@@ -140,9 +140,10 @@ ion-card {
   width: 100%;
   height: 100%;
   display: flex; /* Magic begins */
-  flex-direction: column;
-  justify-content: center; /* Center in main axis */
-  align-items: center; /* Center in cross axis */
+  // flex-direction: column;
+  // justify-content: center; /* Center in main axis */
+  // align-items: center; /* Center in cross axis */
+  flex-wrap: nowrap;
   background-color: black;
 }
 #photo-fullscreen {
@@ -153,19 +154,18 @@ ion-card {
   object-position: 50% 50%;
   border-radius: 10px;
   object-fit: cover;
-  height: 50px;
-  width: 50px;
+  height: 150px;
+  width: 450px;
 }
 .caard-container {
   width: auto;
-  overflow-x: scroll;
   display: flex;
-  background-color: white;
+  flex-wrap: wrap;
   padding: 0px;
 }
 
 .caard {
-  min-width: 50px;
+  
   border-radius: 16px;
   box-shadow: -1rem 0 3rem transparent;
   display: flex;

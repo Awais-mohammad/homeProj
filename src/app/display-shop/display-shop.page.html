@@ -1,19 +1,25 @@
 <ion-header *ngIf="!createcollection">
-  <!--sdnvoiwr-->
-  <ion-toolbar>
 
-    <div class="header">
+  <ion-toolbar color="success">
+
+    <div *ngIf="shopData" style="width: 100%;" class="header">
       <ion-icon (click)="closePage()" class="iconheight" name="chevron-back"></ion-icon>
-      <ion-label class="toggledfont" style="position: relative;top: 4px;">DISPLAY SHOP</ion-label>
-      <ion-icon *ngIf="userID == shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && !list"
+      <ion-label class="toggledfont" style="position: relative;top: 4px;color: white;font-weight: bold;">DISPLAY SHOP
+      </ion-label>
+
+
+      <ion-icon *ngIf="userID == shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && !list && shopData"
         (click)="showHidelist()" class="iconheight" name="caret-down"></ion-icon>
 
-      <ion-icon *ngIf="userID == shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && list"
+
+      <ion-icon *ngIf="userID == shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && list  && shopData"
         (click)="showHidelist()" class="iconheight" name="caret-up"></ion-icon>
 
-      <ion-icon *ngIf = "userID != shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && !list"></ion-icon>
-    </div>
 
+      <ion-icon *ngIf="userID != shopData.Df.sn.proto.mapValue.fields.OwnerID.stringValue && !list &&shopData">
+      </ion-icon>
+
+    </div>
   </ion-toolbar>
 
   <div *ngIf="list">
@@ -45,30 +51,59 @@
 
     <div class='topimg'>
       <img src="../../assets/pexels-photo-947914.jpeg" alt="">
+
     </div>
 
     <div *ngIf="shopData" class='card-parent'>
 
-      <div class="card">
+      <div style="position: relative;top: -5em;" class="card">
 
-        <div class="imgcentre">
+        <div *ngIf="shopData && !editPage" class="imgcentre">
 
-          <ion-avatar>
+          <ion-avatar style="height: 10em;width: 10em;object-fit: contain;">
             <img class="border imgheightWidth" src="{{shopData.Df.sn.proto.mapValue.fields.ProfileImage.stringValue}}"
               alt="">
           </ion-avatar>
 
-          <ion-icon *ngIf="editPage" class="cameraicon" name="camera"></ion-icon>
+
 
         </div>
 
-        <div class="textCentre">
+        <div *ngIf="!editPage" style="position: relative;top: -4em;" class="textCentre">
 
-          <div *ngIf="!editPage" class="name">
+          <div style="position: relative;top: -6px;" class="name">
             {{shopData.Df.sn.proto.mapValue.fields.Name.stringValue}}
           </div>
 
-          <div *ngIf="editPage">
+          <div style="margin-top: 6px;">
+
+            <ion-label style="color: rgba(0, 128, 0, 0.904);" class="txt">
+              {{shopData.Df.sn.proto.mapValue.fields.Description.stringValue}}
+            </ion-label>
+          </div>
+
+          <div style="margin-top: 6px;" class="txt" lines="none">
+            <b>
+              Contact Mail:
+            </b> {{shopData.Df.sn.proto.mapValue.fields.Email.stringValue}}
+          </div>
+
+
+          <div style="margin-top: 6px;" class="txt" lines="none">
+            <b>
+              Registered Since:
+            </b> {{timeCalc(shopData.Df.sn.proto.mapValue.fields.RegisteredAt.integerValue)}}
+          </div>
+
+          <div style="margin-top: 6px;" class="txt" lines="none">
+            <b>
+              Adress:
+            </b> {{shopData.Df.sn.proto.mapValue.fields.Adress.stringValue}}
+          </div>
+
+
+
+          <!-- <div *ngIf="editPage">
 
             <ion-list class="line-input">
 
@@ -79,17 +114,15 @@
 
             </ion-list>
 
-          </div>
+          </div> -->
 
         </div>
 
-        <div class="txt" class="otherDetails">
+        <div *ngIf="editPage" class="txt" class="otherDetails">
 
-          <ion-item *ngIf="!editPage" class="txt" lines="none">
-            {{shopData.Df.sn.proto.mapValue.fields.Email.stringValue}}
-          </ion-item>
 
-          <ion-list *ngIf="editPage" class="line-input">
+
+          <ion-list style="margin-top: 4px;" *ngIf="editPage" class="line-input">
 
             <ion-item>
               <ion-label>email</ion-label>
@@ -98,23 +131,9 @@
 
           </ion-list>
 
-          <ion-item *ngIf="!editPage" class="txt" lines="none">
-            {{timeCalc(shopData.Df.sn.proto.mapValue.fields.RegisteredAt.integerValue)}}
-          </ion-item>
 
-          <ion-item *ngIf="!editPage" class="txt" lines="none">
-            {{shopData.Df.sn.proto.mapValue.fields.Adress.stringValue}}
-          </ion-item>
 
           <ion-button *ngIf="editPage" expand="block" color="success">FETCH ADRESS</ion-button>
-
-
-          <ion-item *ngIf="!editPage" lines="none">
-
-            <ion-label class="txt">
-              {{shopData.Df.sn.proto.mapValue.fields.Description.stringValue}}
-            </ion-label>
-          </ion-item>
 
           <ion-list *ngIf="editPage" class="line-input">
             <ion-item>
@@ -125,10 +144,14 @@
 
         </div>
 
-        <ion-button *ngIf="editPage" shape="round" color="success">SAVE</ion-button>
+        <div>
 
-        <ion-button (click)="editProfile()" *ngIf="editPage" shape="round" fill="outline" color="danger">CANCEL
-        </ion-button>
+          <ion-button *ngIf="editPage" shape="round" color="success">SAVE</ion-button>
+
+          <ion-button (click)="editProfile()" *ngIf="editPage" shape="round" fill="outline" color="danger">CANCEL
+          </ion-button>
+        </div>
+
       </div>
 
     </div>
@@ -136,17 +159,29 @@
     <div *ngIf="collections">
       <div class="moveUp" *ngFor="let ite of collections">
 
-        <div class="spacebetween">
-          <ion-item lines="none">
+        <div>
+          <ion-item color="none" lines="none">
             <ion-label class="greenColor">{{ite.collectionName}}</ion-label>
           </ion-item>
 
         </div>
 
-        <div class="caard-container">
+        <div style=" width: auto;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0px;">
 
-          <div *ngFor="let item of ite.images" class="caard">
-            <img class="imgborder" src="{{item.clickedImage}}" alt="">
+          <div *ngFor="let item of ite.images" style=" width: 50%;border-radius: 16px;
+          box-shadow: -1rem 0 3rem transparent;
+          display: flex;
+          flex-direction: column;
+          padding: 4px;
+          transition: 0.2s;">
+            <img style=" object-position: 50% 50%;
+            border-radius: 10px;
+            object-fit: cover;
+            height: 100px;
+            width: 400px;" src="{{item.clickedImage}}" alt="">
           </div>
         </div>
       </div>
@@ -156,7 +191,7 @@
 
   <!--Create collection-->
   <div *ngIf="createcollection">
-    <img src="../../assets/icon/tree.png" class="topleftimage" alt="">
+    <img src="../../assets/checklogo.png" class="topleftimage" alt="">
     <ion-label class="alignleft">TERRAPLANTERA</ion-label>
 
     <div class="fadeInRight" *ngIf="stage=='name'" class="middle">
@@ -211,14 +246,18 @@
 
               <div *ngIf="shopImages">
 
-                <ion-col *ngFor="let item of shopImages.images">
+                <ion-col style="display: flex;flex-wrap: wrap;" *ngFor="let item of shopImages.images">
+                  <div>
 
-                  <img src="{{item.clickedImage}}" alt="">
-                  <ion-chip color="none" style="background: rgb(241, 238, 238);">
-                    <ion-icon (click)="removeimage(item.clickedImage)" size="large" style="position: relative;"
-                      color="danger" name='trash'></ion-icon><span
-                      style="font-family: monospace; color:red;font-weight: bold;">Delete</span>
-                  </ion-chip>
+                    <div>
+                      <img style="height:5em;width: 100%;object-fit: contain;" src="{{item.clickedImage}}" alt="">
+                      <ion-chip color="none" style="background: rgb(241, 238, 238);">
+                        <ion-icon (click)="removeimage(item.clickedImage)" size="large" style="position: relative;"
+                          color="danger" name='trash'></ion-icon><span
+                          style="font-family: monospace; color:red;font-weight: bold;">Delete</span>
+                      </ion-chip>
+                    </div>
+                  </div>
                 </ion-col>
 
               </div>
@@ -233,7 +272,7 @@
             <ion-icon color="success" slot="start" name="add-outline"></ion-icon>
           </ion-button>
 
-          <ion-button (click)="create()" mode='ios' expand='block' color="dark">CREATE
+          <ion-button (click)="create()" mode='ios' expand='block' color="dark">DONE
             <ion-icon name="arrow-forward"></ion-icon>
           </ion-button>
         </div>

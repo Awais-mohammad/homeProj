@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color = "light">
+<ion-content color="light">
   <div *ngIf="post">
     <div id="container" *ngIf="!post.comments">
       <strong style="color:rgb(202, 200, 200)">! No Comments !<a target="_blank" rel="noopener noreferrer"
@@ -13,19 +13,21 @@
         Be the first one to comment
       </p>
     </div>
-    <div *ngIf="post.comments" style = "padding-top:10px;">
-      <ion-item *ngFor="let comment of post.comments" color="none" lines="none" style = "padding-bottom:10px;">
+
+    <div *ngIf="post.comments" style="padding-top:10px;">
+      <ion-item *ngFor="let comment of post.comments" color="none" lines="none" style="padding-bottom:10px;">
         <div slot="start" style="width: 50px; text-align: center;">
           <div>
             <ion-avatar slot="start">
-              <ion-icon name="person" size="large" color = "dark"></ion-icon>
+              <ion-icon *ngIf="!comment.image" name="person" size="large" color="dark"></ion-icon>
+              <img style="object-fit: contain;" *ngIf="comment.image" src="{{comment.image}}" alt="">
             </ion-avatar>
           </div>
           <div>
-            <ion-label style="font-size:0.5em; color:rgb(78, 77, 77);" >{{comment.name}}</ion-label>
+            <ion-label style="font-size:0.5em; color:rgb(78, 77, 77);">{{comment.name}}</ion-label>
           </div>
         </div>
-        <ion-card slot = "start" color="none" style="padding:15px;
+        <ion-card slot="start" color="none" style="padding:15px;
         background:rgba(255, 255, 255, 0.842);
         border-radius: 20px;">
           <div style="font-family: bangers; font-size:1.3em; color:rgb(0, 0, 0);">
@@ -35,11 +37,7 @@
       </ion-item>
     </div>
   </div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="dark" (click)="dismiss()">
-      <ion-icon name="chevron-down" color="primary" size="large"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+
 </ion-content>
 
 <ion-footer>

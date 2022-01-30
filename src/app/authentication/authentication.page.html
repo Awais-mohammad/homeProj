@@ -1,4 +1,4 @@
-<ion-content>
+<!-- <ion-content>
   <div *ngIf="!currentPage">
     <div id="page">
       <div class="context">
@@ -184,4 +184,100 @@
     </div>
 
   </div>
+</ion-content> -->
+
+<ion-content>
+
+  <div *ngIf="!currentPage" style="min-height: 100%;background: linear-gradient(to right, #12811044 0%, #189c1644 100%);;">
+
+    <div style="position: relative;left: 5em;">
+      <img src="../../assets/images/logo.png" alt="">
+    </div>
+
+    <div
+      style="display: flex;justify-content: center;align-items: center;text-align: center;padding-left:30px;padding-right:30px;position: relative;top: -8em;flex-direction: column;">
+      <ion-input [(ngModel)]="userEmail" style="text-align: center;color: black;font-family: 'Roboto', sans-serif;"
+        type="email" placeholder="Enter Your Email">
+
+      </ion-input>
+
+      <ion-input [(ngModel)]="userPassword"
+        style="text-align: center;color: black;margin-top: 1em;font-family: 'Roboto', sans-serif;" type="password"
+        placeholder="Enter Your Password">
+
+      </ion-input>
+
+      <ion-label (click)="forgotpassword()"
+        style="color: black;position: relative;left: 30%;font-size: 12px;margin-top: 0.5em;font-family: 'Roboto', sans-serif;font-weight: bold;">
+        Forgot Password?
+      </ion-label>
+
+
+      <div (click)="validateLogin()"
+        style="height: 2.5em;background-color: rgba(0, 128, 0, 0.541);color: white;width: 90%;border-radius: 25px;margin-top: 1em;text-align: center;padding-top: 0.7em;font-weight:bold;">
+        LOGIN
+      </div>
+      <div style="height: 1em;">
+
+      </div>
+
+      <ion-label style="color: gray;font-family: 'Roboto', sans-serif;">New User
+        <span (click)="changeMainDiv()" style="color: black;">REGISTER?</span>
+      </ion-label>
+    </div>
+
+
+  </div>
+
+  <div *ngIf="currentPage" style="min-height: 100%;background: linear-gradient(to right, #12811044 0%, #189c1644 100%);">
+
+    <div style="position: relative;left: 5em;">
+      <img src="../../assets/images/logo.png" alt="">
+    </div>
+
+    <div
+      style="display: flex;justify-content: center;align-items: center;text-align: center;padding-left:30px;padding-right:30px;position: relative;top: -8em;flex-direction: column;">
+      <ion-input style="text-align: center;color: black;font-family: 'Roboto', sans-serif;" [(ngModel)]="name"
+        placeholder="Enter Your Name">
+
+      </ion-input>
+
+      <ion-input style="text-align: center;color: black;margin-top: 1em;font-family: 'Roboto', sans-serif;" type="email"
+        [(ngModel)]="email" placeholder="Enter Your Email">
+
+      </ion-input>
+
+
+      <ion-input style="text-align: center;color: black;margin-top: 1em;font-family: 'Roboto', sans-serif;"
+        [(ngModel)]="phone" type="number" placeholder="Enter Your Phone">
+
+      </ion-input>
+
+
+      <ion-input style="text-align: center;color: black;margin-top: 1em;font-family: 'Roboto', sans-serif;"
+        [(ngModel)]="adress" placeholder="Enter Your Profile Bio">
+
+      </ion-input>
+
+      <ion-input style="text-align: center;color: black;margin-top: 1em;font-family: 'Roboto', sans-serif;"
+        [(ngModel)]="password" type="password" placeholder="Enter Your Password">
+
+      </ion-input>
+
+
+      <div (click)="validatesignupForm()"
+        style="height: 2.5em;background-color: rgba(0, 128, 0, 0.541);color: white;width: 90%;border-radius: 25px;margin-top: 1em;text-align: center;padding-top: 0.7em;font-weight:bold;">
+        SIGNUP </div>
+      <div style="height: 1em;">
+
+      </div>
+
+      <ion-label style="color: gray;font-family: 'Roboto', sans-serif;">HAVE AN ACCOUNT?
+        <span (click)="changeMainDiv()" style="color: black;">LOGIN</span>
+      </ion-label>
+    </div>
+
+
+  </div>
+
 </ion-content>

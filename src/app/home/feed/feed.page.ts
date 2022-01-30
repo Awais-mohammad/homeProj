@@ -1,3 +1,4 @@
+import { ImageViewerPage } from './../../image-viewer/image-viewer.page';
 import { DisplayShopPage } from './../../display-shop/display-shop.page';
 import { OneSignal } from "@ionic-native/onesignal/ngx";
 import { UserProfilePage } from "./../../user-profile/user-profile.page";
@@ -12,9 +13,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Camera, CameraOptions } from "@ionic-native/Camera/ngx";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer/ngx";
-import { AdMobFree, AdMobFreeBannerConfig, AdMobFreeInterstitialConfig } from '@ionic-native/admob-free/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { CommentsPage } from 'src/app/comments/comments.page';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { ActionSheetController } from '@ionic/angular';
@@ -38,10 +38,10 @@ export class FeedPage implements OnInit {
     public modal: ModalController,
     public onesignal: OneSignal,
     private statusBar: StatusBar,
-    public admob: AdMobFree,
     private platform: Platform,
     private socialSharing: SocialSharing,
     public actionSheetController: ActionSheetController,
+    public alertCtrl: AlertController,
 
   ) {
     let currentDate = new Date();
@@ -97,6 +97,23 @@ export class FeedPage implements OnInit {
     return await model.present();
   }
 
+  async openFullpageimage(url) {
+
+
+    const model = await this.modal.create({
+      component: ImageViewerPage,
+      cssClass: "my-custom-class",
+      id: "viewImage",
+      componentProps: {
+        imageURL: url,
+      },
+    });
+    return await model.present();
+
+
+  }
+
+
   async testmodal() {
 
 
@@ -146,7 +163,7 @@ export class FeedPage implements OnInit {
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       cssClass: 'my-custom-class',
-      mode:'ios',
+      mode: 'ios',
       buttons: [{
         text: 'Logout',
         icon: 'log-out-outline',
@@ -155,6 +172,99 @@ export class FeedPage implements OnInit {
           this.router.navigate(['authentication']);
         }
       }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  imageCap: string;
+
+  async addCaption(postID: string) {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Add Caption To Image',
+      mode: 'ios',
+      backdropDismiss: false,
+      inputs: [
+        {
+          name: 'caption',
+          type: 'text',
+          placeholder: 'Hooray!! Its my first plantation'
+        },
+
+      ],
+      buttons: [
+        {
+          text: 'ADD',
+          handler: (alertData) => {
+            console.log("alertData.newpassword", alertData.caption);
+            if (!alertData.caption) {
+              this.msg = 'Caption is a must!!'
+              this.presentToast()
+              this.addCaption(postID)
+            }
+            else {
+              this.imageCap = alertData.caption
+              console.log('caption is', this.imageCap);
+              const imageCaption = this.imageCap
+              const edited = true
+              this.firestore.collection('postimages').doc(postID).update({
+                edited,
+                imageCaption
+              }).then(() => {
+                this.msg = 'Updated'
+                this.presentToast()
+              })
+
+            }
+
+          }
+        }, {
+          text: 'Close',
+          role: 'Cancel',
+          handler: (alertData) => {
+
+
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async editPost(postID: string) {
+    const actionSheet = await this.actionSheetController.create({
+      cssClass: 'my-custom-class',
+      mode: 'ios',
+      buttons: [{
+        text: 'EDIT CAPTION',
+        icon: 'create',
+        handler: () => {
+
+          this.addCaption(postID)
+
+        }
+      },
+      {
+        text: 'DELETE',
+        icon: 'trash',
+        role: 'destructive',
+        handler: () => {
+          this.firestore.collection('postimages').doc(postID).delete().then(() => {
+            this.msg = 'Deleted!!!'
+            this.presentToast()
+          })
+
+        }
+      },
+      {
         text: 'Cancel',
         icon: 'close',
         role: 'cancel',
@@ -208,7 +318,7 @@ export class FeedPage implements OnInit {
 
     return this.http
       .post(
-        "http://134.122.2.23/useruserpush.php",
+        "https://exportportal.site/userpush.php",
         {
           message: content,
           playerID: playerID,
@@ -361,27 +471,10 @@ export class FeedPage implements OnInit {
       });
 
   }
-  showBanner() {
-    console.log('banner for adds');
 
-    let bannerConfig: AdMobFreeBannerConfig = {
-
-      autoShow: true,
-      id: 'ca-app-pub-5604699543980819/8680152797'
-
-    };
-
-    this.admob.banner.config(bannerConfig);
-
-    this.admob.banner.prepare().then((e) => {
-      console.log('edd mob=>', e);
-
-    }).catch(e => console.log(e));
-
-  }
 
   ionViewWillEnter() {
-    this.showBanner()
+
     if (!this.posts) {
       this.firebaseauth.authState.subscribe((u) => {
         this.currentUserID = u.uid;

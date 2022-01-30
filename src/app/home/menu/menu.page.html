@@ -1,17 +1,21 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="--background: #2C7744;  /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to right, #2C7744, #2C7744);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: linear-gradient(to right, #2C7744, #0b44037c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  ">
 
     <div class="iconSize" style="display: flex;justify-content: space-between;font-family: 'Roboto', sans-serif;padding: 15px;
           font-size: 24px;">
       <ion-icon (click)="getuser()" name="map-outline" slot="start"></ion-icon>
-      <ion-label style="font-weight:bold;color: rgb(19, 19, 19);" slot="start">Maps</ion-label>
-      <ion-icon (click)="presentActionSheet()" name="ellipsis-vertical-outlinee"></ion-icon>
+      <ion-label style="font-weight:bold;color: white;" slot="start">Maps</ion-label>
+      <ion-icon (click)="presentActionSheet()" name="ellipsis-vertical-outline"></ion-icon>
     </div>
 
   </ion-toolbar>
 </ion-header>
 
-<ion-content data-no-turbolink>
+<ion-content style="--background: linear-gradient(to right, #12811010 0%, #189c160c 100%);min-height: 100%;"
+  data-no-turbolink>
 
   <div id="map"></div>
   <ion-button (click)="getuser()" style="z-index: 1;position: absolute;bottom: 14px;right: 12px;" shape='round'

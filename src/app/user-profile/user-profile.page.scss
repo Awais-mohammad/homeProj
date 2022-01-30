@@ -18,7 +18,9 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
 */
 
 /* Base Styles */
-
+div{
+  background:white;
+}
 img {
   display: block;
 }
@@ -363,10 +365,16 @@ img {
   object-position: 50% 50%;
   border-radius: 10px;
   object-fit: cover;
-  height: 50px;
-  width: 50px;
+  height: 150px;
+  width: 450px;
 }
-
+.imeg {
+  object-position: 50% 50%;
+  border-radius: 10px;
+  object-fit: cover;
+  height: 150px;
+  width: 450px;
+}
 .imgcontainer {
   display: flex;
   justify-content: center;

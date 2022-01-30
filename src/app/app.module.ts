@@ -19,7 +19,6 @@ import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { AngularFireStorageModule } from '@angular/fire/storage'
 import { HttpClientModule } from '@angular/common/http';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { AdMobFree } from '@ionic-native/admob-free/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
@@ -44,7 +43,6 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     NativeGeocoder,
     FileTransfer,
     SocialSharing,
-    AdMobFree,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
 

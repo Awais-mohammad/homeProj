@@ -46,6 +46,8 @@ export class GalleryPage implements OnInit {
   userID: string;
   imagesData: any;
   getImages() {
+    console.log('kld');
+
     this.loaderID = 'lol'
     this.loadermsg = 'LOADING'
     this.presentLoading()
@@ -55,8 +57,9 @@ export class GalleryPage implements OnInit {
         this.loadingController.dismiss('lol')
       }
       else {
-        console.log(res);
+        console.log('images', res);
         this.imagesData = res
+        console.log('jkdhoseg>', this.imagesData)
         this.loadingController.dismiss('lol')
       }
 
@@ -84,6 +87,7 @@ export class GalleryPage implements OnInit {
 
   ionViewWillEnter() {
 
+
   }
 
   ionViewWillLeave() {
@@ -93,6 +97,7 @@ export class GalleryPage implements OnInit {
     const authsub = this.firebaseauth.authState.subscribe(user => {
       this.userID = user.uid
       this.getImages()
+      console.log(user.uid);
 
     })
   }

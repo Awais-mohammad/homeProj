@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { DisplayShopPage } from 'src/app/display-shop/display-shop.page';
 import { Platform } from "@ionic/angular";
 import { Component, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
@@ -5,9 +7,10 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { OneSignal } from "@ionic-native/onesignal/ngx";
 import * as firebase from "firebase/app";
-import { LoadingController, ToastController } from "@ionic/angular";
+import { LoadingController, ToastController, ModalController } from "@ionic/angular";
 import { Camera, CameraOptions } from "@ionic-native/Camera/ngx";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer/ngx";
+import { IonTabs } from '@ionic/angular'
 
 @Component({
   selector: "app-home",
@@ -15,6 +18,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-nati
   styleUrls: ["home.page.scss"],
 })
 export class HomePage {
+  private activeTab?: HTMLElement;
   constructor(
     private platform: Platform,
     private oneSignal: OneSignal,
@@ -25,7 +29,8 @@ export class HomePage {
     public toasts: ToastController,
     private camera: Camera,
     public File: FileTransfer,
-
+    public ModalCtrl: ModalController,
+    public router: Router,
   ) {
     let currentDate = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -38,11 +43,9 @@ export class HomePage {
 
   //backbutton disabled
   backDisbale = this.platform.backButton.subscribeWithPriority(999, () => {
-    this.msg = 'press again to exit'
-    this.presentToast()
-    this.platform.backButton.subscribeWithPriority(999, () => {
-      navigator["app"].exitApp();
-    })
+
+    this.router.navigate(['home/landing'])
+
   });
   ///VARIABLES
   userID: string;
@@ -80,6 +83,10 @@ export class HomePage {
   }
 
 
+  gotoNotifications() {
+    this.router.navigate(['home/notifications'])
+  }
+
   getUserdata() {
     this.firestore
       .collection("users")
@@ -92,24 +99,18 @@ export class HomePage {
 
   }
 
-  noti: boolean = false;
-  showhidenoti() {
-    this.noti = !this.noti;
-  }
+
+  notifications: any[];
+
   checkNotifications() {
-    console.log("checking notifications");
+
 
     this.firestore
       .collection("notifications", (q) => q.where("notificationFor", "==", this.userID))
       .valueChanges()
       .subscribe((r) => {
-        if (r.length < 1) {
-          this.noti = false;
-          console.log("no notifications for users");
-        } else {
-          this.noti = true;
-          console.log("users have notifications");
-        }
+        this.notifications = r
+
       });
   }
 
@@ -137,10 +138,10 @@ export class HomePage {
           fileName: this.docID + this.docID + ".jpg",
           headers: {},
         };
-        FileTransfer.upload(this.imageData, "https://134.122.2.23/upload.php", opt)
+        FileTransfer.upload(this.imageData, "https://exportportal.site/upload.php", opt)
           .then((upload) => {
             console.log(upload);
-            this.clickedImage = "https://134.122.2.23/uploads/" + this.docID + this.docID + ".jpg";
+            this.clickedImage = "https://exportportal.site/uploads/" + this.docID + this.docID + ".jpg";
             this.uploadTofirestore();
           })
           .catch((err) => {
@@ -297,19 +298,76 @@ export class HomePage {
     })
   }
 
-  ionViewWillEnter() {
+  shopData: any;
 
+  getshops() {
+    this.firestore.collection('shops', querr => querr.where('OwnerID', '==', this.userID)).valueChanges().subscribe(res => {
+      if (res.length < 1) {
+
+      }
+      else {
+
+        this.shopData = res;
+        console.log("shop=>", this.shopData);
+
+      }
+
+    })
+  }
+
+  async opendisplayshoppage() {
+    const model = await this.ModalCtrl.create({
+      component: DisplayShopPage,
+      cssClass: "my-custom-class",
+      id: "displayshop",
+      componentProps: {
+        PageID: this.shopData[0].docID,
+      },
+    });
+    return await model.present();
+
+
+  }
+  ionViewWillEnter() {
+    this.propagateToActiveTab('ionViewWillEnter');
     this.firebaseauth.authState.subscribe((user) => {
       this.userID = user.uid;
       this.getUserdata();
+      this.getshops()
+      this.checkNotifications();
       this.platform.ready().then(() => {
 
         if (this.platform.is("cordova") && this.userData) {
           // this.getGeolocation();
-          this.checkNotifications();
+
         }
       });
     });
 
   }
+
+  tabChange(tabsRef: IonTabs) {
+    this.activeTab = tabsRef.outlet.activatedView.element;
+  }
+
+  ionViewWillLeave() {
+    this.propagateToActiveTab('ionViewWillLeave');
+  }
+
+  ionViewDidLeave() {
+    this.propagateToActiveTab('ionViewDidLeave');
+  }
+
+
+
+  ionViewDidEnter() {
+    this.propagateToActiveTab('ionViewDidEnter');
+  }
+
+  private propagateToActiveTab(eventName: string) {
+    if (this.activeTab) {
+      this.activeTab.dispatchEvent(new CustomEvent(eventName));
+    }
+  }
+
 }
